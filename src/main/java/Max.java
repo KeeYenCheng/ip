@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Max {
-  private static String tabSpace = "    ";
+  public static String tabSpace = "    ";
   private static String banner = "  _____ _____  ___  ___\n" 
                  + " /     \\\\__  \\ \\  \\/  /\n" 
                  + "|  Y Y  \\/ __ \\_>    < \n"
@@ -31,19 +31,30 @@ public class Max {
    */
 
   public static boolean echo(String response) {
-     
-    switch (response) {
+    
+    String[] args = response.split(" ");
+    switch (args[0]) {
       case "bye":
         System.out.println(bye);
         return false;
       case "list":
         Task.printAllTask();
-        System.out.println(bars);
         return true;
+      case "mark":
+        if (args.length < 2) {
+          System.out.println("please provide task id");
+        }
+        Task.setTaskDone(Integer.parseInt(args[1]));
+        return true;
+      case "unmark":
+        if (args.length < 2) {
+          System.out.println("please provide task id");
+        }
+        Task.setTaskNotDone(Integer.parseInt(args[1]));
+        return true; 
       default:
         Task newTask = new Task(response);
         System.out.println(tabSpace + " added: " + response);
-        System.out.println(bars);
         return true;
       }
     
@@ -59,7 +70,9 @@ public class Max {
       String response = scanner.nextLine();
       System.out.println(bars); 
     
-      repeat = echo(response); 
+      repeat = echo(response);
+      System.out.println(bars); 
+    
     }
     
   }
