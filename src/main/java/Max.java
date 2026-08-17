@@ -11,41 +11,56 @@ public class Max {
                      + tabSpace + "What do you need?";
   private static String bars = tabSpace + "________________________________________";
   private static String bye = tabSpace + "See ya later!\n";
-  
 
+
+  /**
+   * Print greetings
+   */
   public static void greeting() {
     System.out.println(banner);
     System.out.println(greetings);
     System.out.println(bars);
   }
 
+  /**
+   * Echo string provided 
+   *
+   * @param response the string to be echoed.
+   * @return True if successfully echoed string, false otherwise
+   *
+   */
+
   public static boolean echo(String response) {
      
     switch (response) {
       case "bye":
         System.out.println(bye);
+        return false;
+      case "list":
+        Task.printAllTask();
+        System.out.println(bars);
         return true;
       default:
-        System.out.println(tabSpace + response);
+        Task newTask = new Task(response);
+        System.out.println(tabSpace + " added: " + response);
         System.out.println(bars);
-        return false;
+        return true;
       }
     
   }
 
-
-
   public static void main(String[] args) {
     
     greeting();
-    boolean exit = false;
+    boolean repeat = true;
    
-    while(!exit) {
+    while(repeat) {
       Scanner scanner = new Scanner(System.in);
       String response = scanner.nextLine();
       System.out.println(bars); 
     
-      exit = echo(response); 
+      repeat = echo(response); 
     }
+    
   }
 }
