@@ -1,16 +1,18 @@
+import java.util.ArrayList;
+
+import MaxExceptions.InvalidTaskIDException;
+
 public class Task {
-  private static Task[] tasks = new Task[100];
+  private static ArrayList<Task> tasks = new ArrayList<>();
   private static int count = 0;
 
 
   private String desc;
-  private int id;
   private boolean done = false;
 
   Task(String task) {
     this.desc = task;
-    this.id = count;
-    Task.tasks[id] = this;
+    tasks.add(this);
     count++;
   }
   
@@ -30,11 +32,14 @@ public class Task {
    * Print all task 
    */
   public static void printAllTask() {
-    for(int i = 0; i < tasks.length; i++) {
-      if (tasks[i] == null) {
+    if (tasks.size() == 0) {
+     System.out.println(Max.tabSpace+ "there is currently no task");
+    }
+    for(int i = 0; i < tasks.size(); i++) {
+      if (tasks.get(i) == null) {
         continue;
       }
-      System.out.println(Max.tabSpace + (i+1) + "." + tasks[i]);
+      System.out.println(Max.tabSpace + (i+1) + "." + tasks.get(i));
     }
   }
 
@@ -42,26 +47,34 @@ public class Task {
     System.out.println(Max.tabSpace + "Now you have " + Task.count + " in the list");
   }
 
-
-  public static void setTaskDone(int i) {
-    if (tasks[i] == null) {
-      // TODO error handling
-      return;
+  public static void deleteTask(int i) throws InvalidTaskIDException {
+    if (i < 0 || tasks.get(i-1) == null) {
+      throw new InvalidTaskIDException();
     }
-    tasks[i-1].done();
+    System.out.println(Max.tabSpace + "Okay! I've deleted this task from the list");
+    System.out.println(Max.tabSpace + tasks.get(i-1)); 
+    tasks.remove(i-1);
+    Task.count--;
+  }
+
+
+  public static void setTaskDone(int i) throws InvalidTaskIDException {
+    if (i < 0 || tasks.get(i-1) == null) {
+      throw new InvalidTaskIDException();
+    }
+    tasks.get(i-1).done();
     System.out.println(Max.tabSpace + "Nice! I've marked this task as done");
-    System.out.println(Max.tabSpace + tasks[i-1]);
+    System.out.println(Max.tabSpace + tasks.get(i-1));
 
   }
 
-  public static void setTaskNotDone(int i) {
-    if (tasks[i] == null) {
-      // TODO error handling
-      return;
+  public static void setTaskNotDone(int i) throws InvalidTaskIDException {
+    if (i < 0 || tasks.get(i-1) == null) {
+      throw new InvalidTaskIDException();
     }
-    tasks[i-1].notDone();
+    tasks.get(i-1).notDone();
     System.out.println(Max.tabSpace + "Ok! I've marked this task as not done");
-    System.out.println(Max.tabSpace + tasks[i-1]);
+    System.out.println(Max.tabSpace + tasks.get(i-1));
   }
 
   @Override

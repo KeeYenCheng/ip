@@ -96,7 +96,17 @@ public class Max {
         } catch (NumberFormatException e) {
           throw new InvalidTaskIDException();
         }
-        return true; 
+        return true;
+      case "delete":
+        if (args.length < 2) {
+          throw new InvalidTaskIDException();
+        }
+        try {
+          Task.deleteTask(Integer.parseInt(args[1]));
+        } catch (NumberFormatException e) {
+          throw new InvalidTaskIDException();
+        }
+        return true;
       default:
         throw new UnknownCommandException();
       }
