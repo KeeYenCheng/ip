@@ -1,5 +1,11 @@
 import java.util.Scanner;
 
+import MaxExceptions.EmptyDescriptionException;
+import MaxExceptions.InvalidTaskIDException;
+import MaxExceptions.MaxException;
+import MaxExceptions.MissingDatesException;
+import MaxExceptions.UnknownCommandException;
+
 public class Max {
   public static String tabSpace = "    ";
   private static String banner = "  _____ _____  ___  ___\n" 
@@ -30,7 +36,7 @@ public class Max {
    *
    */
 
-  public static boolean echo(String response) {
+  public static boolean echo(String response) throws MaxException {
     
     String[] args = response.split(" ", 2);
        
@@ -41,34 +47,58 @@ public class Max {
       case "list":
         Task.printAllTask();
         return true;
-      case "todo":       
+      case "todo":
+        if (args.length < 2) {
+          throw new EmptyDescriptionException();
+        }
         Todo newTodo = new Todo(args[1]);
         return true;
       case "deadline":
+        if (args.length < 2) {
+          throw new EmptyDescriptionException();
+        }
         String[] ddl = (args[1]).split("/by ");
+        if (ddl.length < 2) {
+          throw new MissingDatesException();
+        }
         Deadline deadline = new Deadline(ddl[0], ddl[1]);
         return true;
       case "event":
+        if (args.length < 2) {
+          throw new EmptyDescriptionException();
+        }
         String[] evt = (args[1]).split("/from ");
+        if (evt.length < 2) {
+          throw new MissingDatesException();
+        }
         String[] start_end = evt[1].split("/to ");
+        if (start_end.length < 2) {
+          throw new MissingDatesException();
+        }
         Event event = new Event(evt[0], start_end[0], start_end[1]);
         return true;
       case "mark":
         if (args.length < 2) {
-          System.out.println("please provide task id");
+          throw new InvalidTaskIDException();
         }
-        Task.setTaskDone(Integer.parseInt(args[1]));
+        try {
+          Task.setTaskDone(Integer.parseInt(args[1])); 
+        } catch (NumberFormatException e) {
+          throw new InvalidTaskIDException();
+        }
         return true;
       case "unmark":
         if (args.length < 2) {
-          System.out.println("please provide task id");
+          throw new InvalidTaskIDException();
         }
-        Task.setTaskNotDone(Integer.parseInt(args[1]));
+        try {
+          Task.setTaskNotDone(Integer.parseInt(args[1]));
+        } catch (NumberFormatException e) {
+          throw new InvalidTaskIDException();
+        }
         return true; 
       default:
-        Task newTask = new Task(response);
-        System.out.println(tabSpace + " added: " + response);
-        return true;
+        throw new UnknownCommandException();
       }
   }
 
@@ -77,13 +107,19 @@ public class Max {
     
     greeting();
     boolean repeat = true;
-   
+    Scanner scanner = new Scanner(System.in);
+
     while(repeat) {
-      Scanner scanner = new Scanner(System.in);
       String response = scanner.nextLine();
       System.out.println(bars); 
     
-      repeat = echo(response);
+      try {
+        repeat = echo(response);
+      } catch (MaxException e) {
+        System.out.println(tabSpace + "Error: " + e.getMessage());
+        System.out.println(bars);
+        continue;
+      }
       System.out.println(bars); 
     
     }
