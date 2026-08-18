@@ -34,9 +34,14 @@ public class Task {
       if (tasks[i] == null) {
         continue;
       }
-      System.out.println((i+1) + "." + tasks[i]);
+      System.out.println(Max.tabSpace + (i+1) + "." + tasks[i]);
     }
   }
+
+  public static void printNumberOfTask() {
+    System.out.println(Max.tabSpace + "Now you have " + Task.count + " in the list");
+  }
+
 
   public static void setTaskDone(int i) {
     if (tasks[i] == null) {

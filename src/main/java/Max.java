@@ -32,13 +32,26 @@ public class Max {
 
   public static boolean echo(String response) {
     
-    String[] args = response.split(" ");
+    String[] args = response.split(" ", 2);
+       
     switch (args[0]) {
       case "bye":
         System.out.println(bye);
         return false;
       case "list":
         Task.printAllTask();
+        return true;
+      case "todo":       
+        Todo newTodo = new Todo(args[1]);
+        return true;
+      case "deadline":
+        String[] ddl = (args[1]).split("/by ");
+        Deadline deadline = new Deadline(ddl[0], ddl[1]);
+        return true;
+      case "event":
+        String[] evt = (args[1]).split("/from ");
+        String[] start_end = evt[1].split("/to ");
+        Event event = new Event(evt[0], start_end[0], start_end[1]);
         return true;
       case "mark":
         if (args.length < 2) {
@@ -57,8 +70,8 @@ public class Max {
         System.out.println(tabSpace + " added: " + response);
         return true;
       }
-    
   }
+
 
   public static void main(String[] args) {
     
