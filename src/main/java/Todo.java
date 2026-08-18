@@ -1,7 +1,7 @@
 public class Todo extends Task {
   
   Todo(String desc) {
-    super(desc);
+    super(desc, TaskType.TODO);
     System.out.println(Max.tabSpace + "Task added:\n" + 
                        Max.tabSpace + this);
     Task.printNumberOfTask();
@@ -9,6 +9,6 @@ public class Todo extends Task {
 
   @Override
   public String toString() {
-    return "[T]"+ super.toString();
+    return super.toString();
   }
 }

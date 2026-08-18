@@ -4,7 +4,7 @@ public class Event extends Task {
   private String end;
 
   Event(String desc, String start, String end) {
-    super(desc);
+    super(desc, TaskType.EVENT);
     this.start = start;
     this.end = end;
     System.out.println(Max.tabSpace + "Task added:\n" + 
@@ -14,7 +14,7 @@ public class Event extends Task {
 
   @Override
   public String toString() {
-    return "[E]" + super.toString()
+    return super.toString()
           + "(from: " + this.start + "to: " + this.end +")";
   }
   

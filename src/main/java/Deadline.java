@@ -2,7 +2,7 @@ public class Deadline extends Task {
   private String date;
   
   Deadline(String desc, String date) {
-    super(desc);
+    super(desc, TaskType.DEADLINE);
     this.date = date;
     System.out.println(Max.tabSpace + "Task added:\n" + 
                        Max.tabSpace + this);
@@ -11,6 +11,6 @@ public class Deadline extends Task {
 
   @Override
   public String toString() {
-    return "[D]" + super.toString() + "(by: " + this.date + ")";
+    return  super.toString() + "(by: " + this.date + ")";
   }
 }

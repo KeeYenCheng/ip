@@ -2,16 +2,19 @@ import java.util.ArrayList;
 
 import MaxExceptions.InvalidTaskIDException;
 
-public class Task {
+public abstract class Task {
   private static ArrayList<Task> tasks = new ArrayList<>();
   private static int count = 0;
 
 
   private String desc;
-  private boolean done = false;
+  private Status done = Status.NOT_DONE;
 
-  Task(String task) {
+  private TaskType type;
+
+  Task(String task, TaskType type) {
     this.desc = task;
+    this.type = type;
     tasks.add(this);
     count++;
   }
@@ -21,11 +24,11 @@ public class Task {
   }
 
   public void done() {
-    this.done = true;
+    this.done = Status.DONE;
   }
 
   public void notDone() {
-    this.done = false;
+    this.done = Status.NOT_DONE;
   }
 
   /**
@@ -48,7 +51,7 @@ public class Task {
   }
 
   public static void deleteTask(int i) throws InvalidTaskIDException {
-    if (i < 0 || tasks.get(i-1) == null) {
+    if (i <= 0 || i > tasks.size()) {
       throw new InvalidTaskIDException();
     }
     System.out.println(Max.tabSpace + "Okay! I've deleted this task from the list");
@@ -59,7 +62,7 @@ public class Task {
 
 
   public static void setTaskDone(int i) throws InvalidTaskIDException {
-    if (i < 0 || tasks.get(i-1) == null) {
+    if (i <= 0 || i > tasks.size()) {
       throw new InvalidTaskIDException();
     }
     tasks.get(i-1).done();
@@ -69,7 +72,7 @@ public class Task {
   }
 
   public static void setTaskNotDone(int i) throws InvalidTaskIDException {
-    if (i < 0 || tasks.get(i-1) == null) {
+    if (i <= 0 || i > tasks.size())  {
       throw new InvalidTaskIDException();
     }
     tasks.get(i-1).notDone();
@@ -79,8 +82,7 @@ public class Task {
 
   @Override
   public String toString() {
-    String isDone = this.done ? "[X]" : "[ ]";
-    return isDone + this.desc;
+    return this.type.toString() + this.done + this.desc;
   }
 
 }
