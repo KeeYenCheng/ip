@@ -7,9 +7,12 @@ public class Event extends Task {
     super(desc, TaskType.EVENT);
     this.start = start;
     this.end = end;
-    System.out.println(Max.tabSpace + "Task added:\n" + 
-                       Max.tabSpace + this);
-    Task.printNumberOfTask();
+
+  }
+  
+  @Override
+  public String getItemString() {
+    return super.getItemString() + " | " + this.start + " | " + this.end;
   }
 
   @Override

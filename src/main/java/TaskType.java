@@ -13,4 +13,13 @@ public enum TaskType {
   public String toString() {
     return this.s;
   }
+
+  public static TaskType fromSymbol(String symbol) {
+    for (TaskType t : TaskType.values()) {
+      if (t.toString().equals(symbol)) {
+        return t;
+      }
+    }
+    throw new IllegalArgumentException("Unknown task symbol : " + symbol);
+  }
 }
