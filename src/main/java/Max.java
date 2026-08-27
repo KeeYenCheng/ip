@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import MaxExceptions.EmptyDescriptionException;
@@ -35,7 +37,8 @@ public class Max {
    * @return True if successfully echoed string, false otherwise
    *
    */
-
+  
+  //
   public static boolean echo(String response) throws MaxException {
     
     String[] args = response.split(" ", 2);
@@ -52,6 +55,8 @@ public class Max {
           throw new EmptyDescriptionException();
         }
         Todo newTodo = new Todo(args[1]);
+        System.out.println(Max.tabSpace + "Task added:\n" + 
+                       Max.tabSpace + newTodo);
         return true;
       case "deadline":
         if (args.length < 2) {
@@ -62,6 +67,8 @@ public class Max {
           throw new MissingDatesException();
         }
         Deadline deadline = new Deadline(ddl[0], ddl[1]);
+        System.out.println(Max.tabSpace + "Task added:\n" + 
+                       Max.tabSpace + deadline);
         return true;
       case "event":
         if (args.length < 2) {
@@ -76,6 +83,8 @@ public class Max {
           throw new MissingDatesException();
         }
         Event event = new Event(evt[0], start_end[0], start_end[1]);
+        System.out.println(Max.tabSpace + "Task added:\n" + 
+                       Max.tabSpace + event);
         return true;
       case "mark":
         if (args.length < 2) {
@@ -107,6 +116,7 @@ public class Max {
           throw new InvalidTaskIDException();
         }
         return true;
+
       default:
         throw new UnknownCommandException();
       }
@@ -114,9 +124,13 @@ public class Max {
 
 
   public static void main(String[] args) {
-    
     greeting();
     boolean repeat = true;
+    try {
+      Task.loadList();
+    } catch(FileNotFoundException e) {
+
+    }
     Scanner scanner = new Scanner(System.in);
 
     while(repeat) {
@@ -125,13 +139,18 @@ public class Max {
     
       try {
         repeat = echo(response);
+        Task.printNumberOfTask();
       } catch (MaxException e) {
         System.out.println(tabSpace + "Error: " + e.getMessage());
         System.out.println(bars);
         continue;
       }
       System.out.println(bars); 
-    
+      try {
+        Task.saveList();
+      } catch (IOException e) {
+        System.out.println(e); 
+      }
     }
     
   }
