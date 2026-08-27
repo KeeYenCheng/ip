@@ -16,6 +16,11 @@ public class Event extends Task {
     this.start = start;
     this.end = end;
   }
+
+  @Override
+  public boolean isOn(LocalDate date) {
+    return !date.isBefore(start) && !date.isAfter(end);
+  }
   
   @Override
   public String getItemString() {
@@ -25,7 +30,7 @@ public class Event extends Task {
   @Override
   public String toString() {
     return super.toString()
-          + "(from: " + this.start + "to: " + this.end +")";
+          + "(from: " + this.start + " to: " + this.end +")";
   }
   
 }

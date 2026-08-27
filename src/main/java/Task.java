@@ -6,8 +6,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import MaxExceptions.InvalidTaskIDException;
 
@@ -54,6 +56,10 @@ public abstract class Task {
 
   public void notDone() {
     this.isDone = Status.NOT_DONE;
+  }
+
+  public boolean isOn(LocalDate date) {
+    return false;
   }
 
   /**
@@ -140,6 +146,13 @@ public abstract class Task {
         default:
           break;
       }
+    }
+  }
+
+  public static void printTasksOn(LocalDate date) {
+    List<Task> list = tasks.stream().filter(task -> task.isOn(date)).collect(Collectors.toList());
+    for(int i = 0; i < list.size(); i++) {
+      System.out.println(Max.tabSpace + list.get(i)); 
     }
   }
 

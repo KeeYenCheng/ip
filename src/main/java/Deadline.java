@@ -19,6 +19,12 @@ public class Deadline extends Task {
     super(desc, TaskType.DEADLINE, status);
     this.date = date;
   }
+  
+  @Override
+  public boolean isOn(LocalDate date) {
+    return this.date.equals(date);
+  }
+
   @Override
   public String getItemString() {
     
