@@ -1,19 +1,25 @@
+import java.time.LocalDate;
 
 public class Event extends Task {
-  private String start;
-  private String end;
+  private LocalDate start;
+  private LocalDate end;
 
-  Event(String desc, String start, String end) {
+  Event(String desc, LocalDate start, LocalDate end) {
     super(desc, TaskType.EVENT);
     this.start = start;
     this.end = end;
 
   }
 
-  Event(String desc, Status status, String start, String end) {
+  Event(String desc, Status status, LocalDate start, LocalDate end) {
     super(desc, TaskType.EVENT, status);
     this.start = start;
     this.end = end;
+  }
+
+  @Override
+  public boolean isOn(LocalDate date) {
+    return !date.isBefore(start) && !date.isAfter(end);
   }
   
   @Override
@@ -24,7 +30,7 @@ public class Event extends Task {
   @Override
   public String toString() {
     return super.toString()
-          + "(from: " + this.start + "to: " + this.end +")";
+          + "(from: " + this.start + " to: " + this.end +")";
   }
   
 }

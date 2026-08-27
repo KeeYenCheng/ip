@@ -1,5 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 import MaxExceptions.EmptyDescriptionException;
@@ -57,6 +59,7 @@ public class Max {
         Todo newTodo = new Todo(args[1]);
         System.out.println(Max.tabSpace + "Task added:\n" + 
                        Max.tabSpace + newTodo);
+        Task.printNumberOfTask();
         return true;
       case "deadline":
         if (args.length < 2) {
@@ -66,9 +69,15 @@ public class Max {
         if (ddl.length < 2) {
           throw new MissingDatesException();
         }
-        Deadline deadline = new Deadline(ddl[0], ddl[1]);
-        System.out.println(Max.tabSpace + "Task added:\n" + 
+        try {
+          LocalDate dateTime = LocalDate.parse(ddl[1]);
+          Deadline deadline = new Deadline(ddl[0], dateTime);
+          System.out.println(Max.tabSpace + "Task added:\n" + 
                        Max.tabSpace + deadline);
+          Task.printNumberOfTask();
+        } catch (DateTimeParseException e) {
+          throw new MaxException("Invalid date format");
+        }
         return true;
       case "event":
         if (args.length < 2) {
@@ -78,13 +87,23 @@ public class Max {
         if (evt.length < 2) {
           throw new MissingDatesException();
         }
-        String[] start_end = evt[1].split("/to ");
+        String[] start_end = evt[1].split(" /to ");
         if (start_end.length < 2) {
           throw new MissingDatesException();
         }
-        Event event = new Event(evt[0], start_end[0], start_end[1]);
-        System.out.println(Max.tabSpace + "Task added:\n" + 
+        try {
+          System.out.println(start_end[0]);
+          System.out.println(start_end[1]);
+
+          LocalDate start = LocalDate.parse(start_end[0]);
+          LocalDate end = LocalDate.parse(start_end[1]);
+          Event event = new Event(evt[0], start, end);
+          System.out.println(Max.tabSpace + "Task added:\n" + 
                        Max.tabSpace + event);
+          Task.printNumberOfTask();
+        } catch (DateTimeParseException e) {
+          throw new MaxException("Invalid date format");
+        }
         return true;
       case "mark":
         if (args.length < 2) {
@@ -112,11 +131,22 @@ public class Max {
         }
         try {
           Task.deleteTask(Integer.parseInt(args[1]));
+          Task.printNumberOfTask();
         } catch (NumberFormatException e) {
           throw new InvalidTaskIDException();
         }
         return true;
-
+      case "on" :
+        if (args.length < 2) {
+          throw new InvalidTaskIDException();
+        }
+        try {
+          LocalDate start = LocalDate.parse(args[1]);
+          Task.printTasksOn(start);  
+        } catch (DateTimeParseException e) {
+          throw new MaxException("Invalid date format");
+        }
+        return true;
       default:
         throw new UnknownCommandException();
       }
@@ -139,7 +169,6 @@ public class Max {
     
       try {
         repeat = echo(response);
-        Task.printNumberOfTask();
       } catch (MaxException e) {
         System.out.println(tabSpace + "Error: " + e.getMessage());
         System.out.println(bars);

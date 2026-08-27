@@ -4,18 +4,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import MaxExceptions.InvalidTaskIDException;
 
 
 // TODO:
-// 1.abstract the system.out.println into Max class instead (Done)
-// 2.abstract the saving and loading of the 
-// 3.implement OOP principle
-// 4.Load the mark and unmark status of the task
+// 1.Create separate class for Saving and loading 
+// 2.implement OOP principle
+// 3.Load the mark and unmark status of the task
 
 
 public abstract class Task {
@@ -43,7 +45,6 @@ public abstract class Task {
     count++;
   }
 
-
   
   public String getTask() {
      return this.desc;
@@ -55,6 +56,10 @@ public abstract class Task {
 
   public void notDone() {
     this.isDone = Status.NOT_DONE;
+  }
+
+  public boolean isOn(LocalDate date) {
+    return false;
   }
 
   /**
@@ -130,14 +135,24 @@ public abstract class Task {
           new Todo(data[2], Status.fromSymbol(data[1]));
           break;
         case DEADLINE:
-          new Deadline(data[2], Status.fromSymbol(data[1]), data[3]);
+          LocalDate date = LocalDate.parse(data[3]);
+          new Deadline(data[2], Status.fromSymbol(data[1]), date);
           break;
         case EVENT:
-          new Event(data[2], Status.fromSymbol(data[1]), data[3], data[4]);
+          LocalDate start = LocalDate.parse(data[3]);
+          LocalDate end = LocalDate.parse(data[4]);
+          new Event(data[2], Status.fromSymbol(data[1]), start, end);
           break;
         default:
           break;
       }
+    }
+  }
+
+  public static void printTasksOn(LocalDate date) {
+    List<Task> list = tasks.stream().filter(task -> task.isOn(date)).collect(Collectors.toList());
+    for(int i = 0; i < list.size(); i++) {
+      System.out.println(Max.tabSpace + list.get(i)); 
     }
   }
 
