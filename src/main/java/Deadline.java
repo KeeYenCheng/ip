@@ -28,7 +28,7 @@ public class Deadline extends Task {
   @Override
   public String getItemString() {
     
-    return super.getItemString() + " | " + this.date.format(formatter);
+    return super.getItemString() + " | " + this.date;
   }
   @Override
   public String toString() {
