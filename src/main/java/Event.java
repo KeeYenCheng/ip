@@ -9,6 +9,12 @@ public class Event extends Task {
     this.end = end;
 
   }
+
+  Event(String desc, Status status, String start, String end) {
+    super(desc, TaskType.EVENT, status);
+    this.start = start;
+    this.end = end;
+  }
   
   @Override
   public String getItemString() {

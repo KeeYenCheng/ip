@@ -12,9 +12,10 @@ import MaxExceptions.InvalidTaskIDException;
 
 
 // TODO:
-// 1.abstract the system.out.println into Max class instead
+// 1.abstract the system.out.println into Max class instead (Done)
 // 2.abstract the saving and loading of the 
 // 3.implement OOP principle
+// 4.Load the mark and unmark status of the task
 
 
 public abstract class Task {
@@ -23,7 +24,7 @@ public abstract class Task {
 
 
   private String desc;
-  private Status done = Status.NOT_DONE;
+  private Status isDone = Status.NOT_DONE;
 
   private TaskType type;
 
@@ -37,7 +38,7 @@ public abstract class Task {
   Task(String task, TaskType type, Status isDone) {
     this.desc = task;
     this.type = type;
-    this.done = isDone;
+    this.isDone = isDone;
     tasks.add(this);
     count++;
   }
@@ -48,12 +49,12 @@ public abstract class Task {
      return this.desc;
   }
 
-  public void done() {
-    this.done = Status.DONE;
+  public void isDone() {
+    this.isDone = Status.DONE;
   }
 
   public void notDone() {
-    this.done = Status.NOT_DONE;
+    this.isDone = Status.NOT_DONE;
   }
 
   /**
@@ -90,8 +91,8 @@ public abstract class Task {
     if (i <= 0 || i > tasks.size()) {
       throw new InvalidTaskIDException();
     }
-    tasks.get(i-1).done();
-    System.out.println(Max.tabSpace + "Nice! I've marked this task as done");
+    tasks.get(i-1).isDone();
+    System.out.println(Max.tabSpace + "Nice! I've marked this task as isDone");
     System.out.println(Max.tabSpace + tasks.get(i-1));
 
   }
@@ -101,7 +102,7 @@ public abstract class Task {
       throw new InvalidTaskIDException();
     }
     tasks.get(i-1).notDone();
-    System.out.println(Max.tabSpace + "Ok! I've marked this task as not done");
+    System.out.println(Max.tabSpace + "Ok! I've marked this task as not isDone");
     System.out.println(Max.tabSpace + tasks.get(i-1));
   }
 
@@ -121,21 +122,18 @@ public abstract class Task {
     Scanner s = new Scanner(f);
     while (s.hasNext()) {
       String t = s.nextLine();
-      System.out.println(t); 
       String[] data = t.split(Pattern.quote(" | "));
-      for (int i = 0; i < data.length; i++) {
-        System.out.println(data[i]); 
-      }
+    
       TaskType type = TaskType.fromSymbol(data[0]);
       switch (type) {
         case TODO:
-          new Todo(data[2]);
+          new Todo(data[2], Status.fromSymbol(data[1]));
           break;
         case DEADLINE:
-          new Deadline(data[2], data[3]);
+          new Deadline(data[2], Status.fromSymbol(data[1]), data[3]);
           break;
         case EVENT:
-          new Event(data[2], data[3], data[4]);
+          new Event(data[2], Status.fromSymbol(data[1]), data[3], data[4]);
           break;
         default:
           break;
@@ -144,12 +142,12 @@ public abstract class Task {
   }
 
   public String getItemString() {
-    return this.type + " | " + this.done + " | " + this.desc;
+    return this.type + " | " + this.isDone + " | " + this.desc;
   }
 
   @Override
   public String toString() {
-    return this.type.toString() + this.done + this.desc;
+    return this.type.toString() + this.isDone + this.desc;
   }
 
 } 

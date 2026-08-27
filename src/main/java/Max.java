@@ -38,7 +38,6 @@ public class Max {
    *
    */
   
-  //TODO:
   //
   public static boolean echo(String response) throws MaxException {
     
