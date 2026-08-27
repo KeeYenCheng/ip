@@ -1,16 +1,17 @@
+import java.time.LocalDate;
 
 public class Event extends Task {
-  private String start;
-  private String end;
+  private LocalDate start;
+  private LocalDate end;
 
-  Event(String desc, String start, String end) {
+  Event(String desc, LocalDate start, LocalDate end) {
     super(desc, TaskType.EVENT);
     this.start = start;
     this.end = end;
 
   }
 
-  Event(String desc, Status status, String start, String end) {
+  Event(String desc, Status status, LocalDate start, LocalDate end) {
     super(desc, TaskType.EVENT, status);
     this.start = start;
     this.end = end;

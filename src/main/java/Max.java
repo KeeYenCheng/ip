@@ -1,5 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 import MaxExceptions.EmptyDescriptionException;
@@ -66,9 +68,14 @@ public class Max {
         if (ddl.length < 2) {
           throw new MissingDatesException();
         }
-        Deadline deadline = new Deadline(ddl[0], ddl[1]);
-        System.out.println(Max.tabSpace + "Task added:\n" + 
+        try {
+          LocalDate dateTime = LocalDate.parse(ddl[1]);
+          Deadline deadline = new Deadline(ddl[0], dateTime);
+          System.out.println(Max.tabSpace + "Task added:\n" + 
                        Max.tabSpace + deadline);
+        } catch (DateTimeParseException e) {
+          throw new MaxException("Invalid date format");
+        }
         return true;
       case "event":
         if (args.length < 2) {
@@ -78,13 +85,22 @@ public class Max {
         if (evt.length < 2) {
           throw new MissingDatesException();
         }
-        String[] start_end = evt[1].split("/to ");
+        String[] start_end = evt[1].split(" /to ");
         if (start_end.length < 2) {
           throw new MissingDatesException();
         }
-        Event event = new Event(evt[0], start_end[0], start_end[1]);
-        System.out.println(Max.tabSpace + "Task added:\n" + 
+        try {
+          System.out.println(start_end[0]);
+          System.out.println(start_end[1]);
+
+          LocalDate start = LocalDate.parse(start_end[0]);
+          LocalDate end = LocalDate.parse(start_end[1]);
+          Event event = new Event(evt[0], start, end);
+          System.out.println(Max.tabSpace + "Task added:\n" + 
                        Max.tabSpace + event);
+        } catch (DateTimeParseException e) {
+          throw new MaxException("Invalid date format");
+        }
         return true;
       case "mark":
         if (args.length < 2) {
