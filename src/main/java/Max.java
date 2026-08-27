@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
+import javax.swing.UIManager;
+
+
 import MaxExceptions.EmptyDescriptionException;
 import MaxExceptions.InvalidTaskIDException;
 import MaxExceptions.MaxException;
@@ -11,176 +14,111 @@ import MaxExceptions.MissingDatesException;
 import MaxExceptions.UnknownCommandException;
 
 public class Max {
-  public static String tabSpace = "    ";
-  private static String banner = "  _____ _____  ___  ___\n" 
-                 + " /     \\\\__  \\ \\  \\/  /\n" 
-                 + "|  Y Y  \\/ __ \\_>    < \n"
-                 + "|__|_|  (____  /__/\\_ \\\n" 
-                 + "      \\/     \\/      \\/\n";
-  private static String greetings = tabSpace + "Sup! I'm Max.\n"
-                     + tabSpace + "What do you need?";
-  private static String bars = tabSpace + "________________________________________";
-  private static String bye = tabSpace + "See ya later!\n";
+  private static Ui ui = new Ui();
+  private static Storage storage = new Storage("../../data/Max.txt");
+  private static TaskList tasks;  
 
-
-  /**
-   * Print greetings
-   */
-  public static void greeting() {
-    System.out.println(banner);
-    System.out.println(greetings);
-    System.out.println(bars);
-  }
-
-  /**
-   * Echo string provided 
-   *
-   * @param response the string to be echoed.
-   * @return True if successfully echoed string, false otherwise
-   *
-   */
-  
-  //
   public static boolean echo(String response) throws MaxException {
-    
-    String[] args = response.split(" ", 2);
-       
-    switch (args[0]) {
+    String command = Parser.getCommandWord(response);
+
+    switch (command) {
       case "bye":
-        System.out.println(bye);
+        ui.showGoodBye();
         return false;
       case "list":
-        Task.printAllTask();
+        ui.showAllTasks(tasks.getAll());
         return true;
-      case "todo":
-        if (args.length < 2) {
-          throw new EmptyDescriptionException();
-        }
-        Todo newTodo = new Todo(args[1]);
-        System.out.println(Max.tabSpace + "Task added:\n" + 
-                       Max.tabSpace + newTodo);
-        Task.printNumberOfTask();
+      case "todo": {
+        String args = Parser.getArguments(response);
+        Todo newTodo = new Todo(args);
+        tasks.add(newTodo);
+        ui.showTaskAdded(newTodo, tasks.size());
         return true;
-      case "deadline":
-        if (args.length < 2) {
-          throw new EmptyDescriptionException();
-        }
-        String[] ddl = (args[1]).split("/by ");
-        if (ddl.length < 2) {
-          throw new MissingDatesException();
-        }
-        try {
-          LocalDate dateTime = LocalDate.parse(ddl[1]);
-          Deadline deadline = new Deadline(ddl[0], dateTime);
-          System.out.println(Max.tabSpace + "Task added:\n" + 
-                       Max.tabSpace + deadline);
-          Task.printNumberOfTask();
-        } catch (DateTimeParseException e) {
-          throw new MaxException("Invalid date format");
-        }
+      }
+      case "deadline": { 
+        String args = Parser.getArguments(response);
+        String[] ddl = Parser.parseDeadline(args);
+        LocalDate date = Parser.parseDate(ddl[1]);
+        Deadline deadline = new Deadline(ddl[0], date);
+        tasks.add(deadline);
+        ui.showTaskAdded(deadline, tasks.size());
         return true;
-      case "event":
-        if (args.length < 2) {
-          throw new EmptyDescriptionException();
-        }
-        String[] evt = (args[1]).split("/from ");
-        if (evt.length < 2) {
-          throw new MissingDatesException();
-        }
-        String[] start_end = evt[1].split(" /to ");
-        if (start_end.length < 2) {
-          throw new MissingDatesException();
-        }
-        try {
-          System.out.println(start_end[0]);
-          System.out.println(start_end[1]);
-
-          LocalDate start = LocalDate.parse(start_end[0]);
-          LocalDate end = LocalDate.parse(start_end[1]);
-          Event event = new Event(evt[0], start, end);
-          System.out.println(Max.tabSpace + "Task added:\n" + 
-                       Max.tabSpace + event);
-          Task.printNumberOfTask();
-        } catch (DateTimeParseException e) {
-          throw new MaxException("Invalid date format");
-        }
+      }
+      case "event": {
+        String args = Parser.getArguments(response);
+        String[] evt = Parser.parseEvent(args);
+        LocalDate start = Parser.parseDate(evt[1]);
+        LocalDate end = Parser.parseDate(evt[2]);
+        Event event = new Event(evt[0], start, end);
+        tasks.add(event);
+        ui.showTaskAdded(event, tasks.size());
         return true;
-      case "mark":
-        if (args.length < 2) {
-          throw new InvalidTaskIDException();
-        }
-        try {
-          Task.setTaskDone(Integer.parseInt(args[1])); 
-        } catch (NumberFormatException e) {
-          throw new InvalidTaskIDException();
-        }
+      }
+      case "mark": {
+        String args = Parser.getArguments(response);
+        int index = Parser.parseIndex(args);
+        Task task = tasks.setDone(index);
+        ui.showTaskMarkedDone(task);
         return true;
-      case "unmark":
-        if (args.length < 2) {
-          throw new InvalidTaskIDException();
-        }
-        try {
-          Task.setTaskNotDone(Integer.parseInt(args[1]));
-        } catch (NumberFormatException e) {
-          throw new InvalidTaskIDException();
-        }
+      }
+      case "unmark": {
+        String args = Parser.getArguments(response);
+        int index = Parser.parseIndex(args);
+        Task task = tasks.setNotDone(index);
+        ui.showTaskMarkedNotDone(task);
         return true;
-      case "delete":
-        if (args.length < 2) {
-          throw new InvalidTaskIDException();
-        }
-        try {
-          Task.deleteTask(Integer.parseInt(args[1]));
-          Task.printNumberOfTask();
-        } catch (NumberFormatException e) {
-          throw new InvalidTaskIDException();
-        }
+      }
+      case "delete": {
+        String args = Parser.getArguments(response);
+        int index = Parser.parseIndex(args);
+        Task removed = tasks.delete(index);
+        ui.showTaskDeleted(removed, tasks.size());;
         return true;
-      case "on" :
-        if (args.length < 2) {
-          throw new InvalidTaskIDException();
-        }
-        try {
-          LocalDate start = LocalDate.parse(args[1]);
-          Task.printTasksOn(start);  
-        } catch (DateTimeParseException e) {
-          throw new MaxException("Invalid date format");
-        }
+      }
+      case "on": {
+        String args = Parser.getArguments(response);
+        LocalDate date = Parser.parseDate(args);
+        ui.showTasksOn(tasks.getTasksOn(date)); 
         return true;
+      }
       default:
         throw new UnknownCommandException();
-      }
-  }
-
-
-  public static void main(String[] args) {
-    greeting();
-    boolean repeat = true;
-    try {
-      Task.loadList();
-    } catch(FileNotFoundException e) {
-
     }
-    Scanner scanner = new Scanner(System.in);
+  }
+  
+  public static void main(String[] args) {
+    ui.showBanner();
 
-    while(repeat) {
+    try {
+      tasks = new TaskList(storage.load());
+    } catch (FileNotFoundException e) {
+      tasks = new TaskList();
+    }
+
+    Scanner scanner = new Scanner(System.in);
+    boolean repeat = true;
+
+    while (repeat) {
       String response = scanner.nextLine();
-      System.out.println(bars); 
-    
+      ui.showLine();
+      
       try {
         repeat = echo(response);
       } catch (MaxException e) {
-        System.out.println(tabSpace + "Error: " + e.getMessage());
-        System.out.println(bars);
+        ui.showError(e.getMessage());
+        ui.showLine();
         continue;
       }
-      System.out.println(bars); 
+
+      ui.showLine();
+
       try {
-        Task.saveList();
+        storage.save(tasks.getAll());
       } catch (IOException e) {
-        System.out.println(e); 
+        ui.showError("Could not save: " + e.getMessage());
       }
     }
-    
   }
-}
+
+
+ }

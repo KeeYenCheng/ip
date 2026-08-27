@@ -1,8 +1,13 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Event extends Task {
   private LocalDate start;
   private LocalDate end;
+
+  private static final DateTimeFormatter DISPLAY =
+      DateTimeFormatter.ofPattern("MMM dd yyyy");
+
 
   Event(String desc, LocalDate start, LocalDate end) {
     super(desc, TaskType.EVENT);
@@ -30,7 +35,7 @@ public class Event extends Task {
   @Override
   public String toString() {
     return super.toString()
-          + "(from: " + this.start + " to: " + this.end +")";
+          + "(from: " + this.start.format(DISPLAY)  + " to: " + this.end.format(DISPLAY)  +")";
   }
   
 }
