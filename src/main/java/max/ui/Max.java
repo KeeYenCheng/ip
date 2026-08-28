@@ -2,29 +2,34 @@ package max.ui;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-import javax.swing.UIManager;
 
-
-import max.maxexception.EmptyDescriptionException;
-import max.maxexception.InvalidTaskIDException;
 import max.maxexception.MaxException;
-import max.maxexception.MissingDatesException;
 import max.maxexception.UnknownCommandException;
 
 import max.storage.Storage;
 import max.command.Parser;
 import max.task.*;
 import max.data.*;
-import max.ui.Ui;
+
 
 public class Max {
   private static Ui ui = new Ui();
   private static Storage storage = new Storage("../../data/Max.txt");
   private static TaskList tasks;  
-
+  
+  /**
+   * Echo action base on response.
+   *
+   * @param response action to be done by the bot.
+   * @return true if further action can be done else false.
+   *
+   * @example
+   * ```
+   * Write me later
+   * ```
+   */
   public static boolean echo(String response) throws MaxException {
     String command = Parser.getCommandWord(response);
 
@@ -125,6 +130,7 @@ public class Max {
         ui.showError("Could not save: " + e.getMessage());
       }
     }
+    scanner.close();
   }
 
 

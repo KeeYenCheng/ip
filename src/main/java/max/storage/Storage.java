@@ -14,7 +14,6 @@ import max.data.Status;
 import max.task.Deadline;
 import max.task.Event;
 import max.task.Todo;
-import max.data.TaskList;
 
 public class Storage {
   private String filePath;
@@ -23,6 +22,13 @@ public class Storage {
     this.filePath = filePath;
   }
 
+
+  /**
+   * Saves list of task into text file 
+   *
+   * @param tasks list of task to save.
+   * @throws IOException when the filepath is invalid 
+   */
   public void save(List<Task> tasks) throws IOException {
     StringBuilder res = new StringBuilder();
     for (Task task: tasks) {
@@ -33,6 +39,12 @@ public class Storage {
     }
   }
 
+  /**
+   * Load list of task from text file and return it 
+   *
+   * @return ArrayList<Task> list of task from the text file.
+   * @throws FileNotFoundException when the file does not exist 
+   */
   public ArrayList<Task> load() throws FileNotFoundException {
     ArrayList<Task> tasks = new ArrayList<>();
     File f = new File(filePath);
