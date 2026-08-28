@@ -1,3 +1,4 @@
+package max.storage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -7,6 +8,13 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.ArrayList;
+import max.task.Task;
+import max.data.TaskType;
+import max.data.Status;
+import max.task.Deadline;
+import max.task.Event;
+import max.task.Todo;
+import max.data.TaskList;
 
 public class Storage {
   private String filePath;

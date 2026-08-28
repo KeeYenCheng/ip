@@ -1,3 +1,6 @@
+package max.task;
+import max.data.TaskType;
+import max.data.Status;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -9,14 +12,14 @@ public class Event extends Task {
       DateTimeFormatter.ofPattern("MMM dd yyyy");
 
 
-  Event(String desc, LocalDate start, LocalDate end) {
+  public Event(String desc, LocalDate start, LocalDate end) {
     super(desc, TaskType.EVENT);
     this.start = start;
     this.end = end;
 
   }
 
-  Event(String desc, Status status, LocalDate start, LocalDate end) {
+  public Event(String desc, Status status, LocalDate start, LocalDate end) {
     super(desc, TaskType.EVENT, status);
     this.start = start;
     this.end = end;

@@ -1,4 +1,8 @@
+package max.task;
+
 import java.io.File;
+import max.data.Status;
+import max.data.TaskType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 //TODO:
@@ -11,11 +15,11 @@ public class Deadline extends Task {
   private LocalDate date;
   private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
   
-  Deadline(String desc, LocalDate date) {
+  public Deadline(String desc, LocalDate date) {
     super(desc, TaskType.DEADLINE);
     this.date = date;
   }
-  Deadline(String desc, Status status, LocalDate date) {
+  public Deadline(String desc, Status status, LocalDate date) {
     super(desc, TaskType.DEADLINE, status);
     this.date = date;
   }

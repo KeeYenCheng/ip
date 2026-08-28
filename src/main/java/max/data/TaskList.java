@@ -1,8 +1,10 @@
+package max.data;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
-import MaxExceptions.InvalidTaskIDException;
+import max.maxexception.InvalidTaskIDException;
+import max.task.Task;  
 
 public class TaskList {
   private ArrayList<Task> tasks;

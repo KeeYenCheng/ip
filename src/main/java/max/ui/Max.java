@@ -1,3 +1,4 @@
+package max.ui; 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -7,11 +8,17 @@ import java.util.Scanner;
 import javax.swing.UIManager;
 
 
-import MaxExceptions.EmptyDescriptionException;
-import MaxExceptions.InvalidTaskIDException;
-import MaxExceptions.MaxException;
-import MaxExceptions.MissingDatesException;
-import MaxExceptions.UnknownCommandException;
+import max.maxexception.EmptyDescriptionException;
+import max.maxexception.InvalidTaskIDException;
+import max.maxexception.MaxException;
+import max.maxexception.MissingDatesException;
+import max.maxexception.UnknownCommandException;
+
+import max.storage.Storage;
+import max.command.Parser;
+import max.task.*;
+import max.data.*;
+import max.ui.Ui;
 
 public class Max {
   private static Ui ui = new Ui();

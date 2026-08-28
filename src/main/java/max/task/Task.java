@@ -1,3 +1,4 @@
+package max.task;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -8,8 +9,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-
-import MaxExceptions.InvalidTaskIDException;
+import max.data.Status;
+import max.data.TaskType;
+import max.maxexception.InvalidTaskIDException;
 
 
 // TODO:
@@ -24,12 +26,12 @@ public abstract class Task {
   private Status isDone = Status.NOT_DONE;
   private TaskType type;
 
-  Task(String task, TaskType type) {
+  public Task(String task, TaskType type) {
     this.desc = task;
     this.type = type;
   }
 
-  Task(String task, TaskType type, Status isDone) {
+  public Task(String task, TaskType type, Status isDone) {
     this.desc = task;
     this.type = type;
     this.isDone = isDone;

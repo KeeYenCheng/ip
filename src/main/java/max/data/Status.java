@@ -1,3 +1,4 @@
+package max.data;
 public enum Status {
   DONE("[X]"),
   NOT_DONE("[ ]");

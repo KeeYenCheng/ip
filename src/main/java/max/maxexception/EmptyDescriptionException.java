@@ -1,4 +1,4 @@
-package MaxExceptions;
+package max.maxexception;
 
 public class EmptyDescriptionException extends MaxException {
     public EmptyDescriptionException() {

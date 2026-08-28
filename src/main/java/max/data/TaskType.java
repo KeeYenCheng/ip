@@ -1,3 +1,4 @@
+package max.data;
 public enum TaskType {
   TODO("[T]"), 
   DEADLINE("[D]"), 

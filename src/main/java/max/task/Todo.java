@@ -1,10 +1,14 @@
+package max.task;
+
+import max.data.TaskType;
+import max.data.Status;
 public class Todo extends Task {
   
-  Todo(String desc) {
+  public Todo(String desc) {
     super(desc, TaskType.TODO);
   }
 
-  Todo(String desc, Status status) {
+  public Todo(String desc, Status status) {
     super(desc, TaskType.TODO, status);
   }
 

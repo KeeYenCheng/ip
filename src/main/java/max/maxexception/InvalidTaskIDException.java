@@ -1,4 +1,4 @@
-package MaxExceptions;
+package max.maxexception;
 
 public class InvalidTaskIDException extends MaxException {
     public InvalidTaskIDException() {

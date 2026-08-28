@@ -23,4 +23,4 @@ text-ui-test/EXPECTED-UNIX.TXT
 *.class
 
 # Ignore data files
-data/
+#data/
