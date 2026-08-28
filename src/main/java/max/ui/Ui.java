@@ -161,4 +161,14 @@ public class Ui {
     }
 
 
+    public void showMatchingTasks(List<Task> tasks) {
+        if (tasks.isEmpty()) {
+            System.out.println(tabSpace + "No matching tasks found in your list."); 
+            return;
+        }
+        System.out.println(tabSpace + "Here are the matching tasks in your list");
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println(tabSpace + (i+1) + "." + tasks.get(i)); 
+        }
+    }
 } 

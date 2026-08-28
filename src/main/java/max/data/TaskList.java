@@ -36,6 +36,7 @@ public class TaskList {
         t.isDone();
         return t;
     }
+
     public Task setNotDone(int i) throws InvalidTaskIDException {
         if (i <= 0 || i > tasks.size()) {
             throw new InvalidTaskIDException();
@@ -44,7 +45,7 @@ public class TaskList {
         t.notDone();
         return t;
     }
-    
+
     public int size() {
         return tasks.size();
     }
@@ -57,5 +58,10 @@ public class TaskList {
         return tasks.stream().filter(task -> task.isOn(date))
                                                     .collect(Collectors.toList());
     }
-
+   
+    public List<Task> find(String keyword) {
+        return tasks.stream()
+                    .filter(task -> task.getTask().contains(keyword.toLowerCase()))
+                    .collect(Collectors.toList());
+    }
 }

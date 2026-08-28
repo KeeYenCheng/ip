@@ -3,6 +3,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -23,28 +26,33 @@ public class Storage {
     }
 
 
-  /**
-   * Saves list of task into text file 
-   *
-   * @param tasks list of task to save.
-   * @throws IOException when the filepath is invalid 
-   */
+   /**
+    * Saves list of task into text file 
+    *
+    * @param tasks list of task to save.
+    * @throws IOException when the filepath is invalid 
+    */
     public void save(List<Task> tasks) throws IOException {
         StringBuilder res = new StringBuilder();
+        Path path = Paths.get(filePath);
+        if (path.getParent() != null) {
+            Files.createDirectories(path.getParent());
+        }
         for (Task task: tasks) {
             res.append(task.getItemString()).append("\n");
         }
         try (FileWriter fw = new FileWriter(filePath)) {
-        fw.write(res.toString());
+            fw.write(res.toString());
         }
-  }
+    }
 
-  /**
-   * Load list of task from text file and return it 
-   *
-   * @return ArrayList<Task> list of task from the text file.
-   * @throws FileNotFoundException when the file does not exist 
-   */
+
+    /**
+     ** Load list of task from text file and return it 
+    *
+    * @return ArrayList<Task> list of task from the text file.
+    * @throws FileNotFoundException when the file does not exist 
+    */
     public ArrayList<Task> load() throws FileNotFoundException {
         ArrayList<Task> tasks = new ArrayList<>();
         File f = new File(filePath);

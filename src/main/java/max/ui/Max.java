@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Scanner;
-
+import java.util.List;
 
 import max.maxexception.MaxException;
 import max.maxexception.UnknownCommandException;
@@ -15,9 +15,11 @@ import max.data.*;
 
 
 public class Max {
+
     private static Ui ui = new Ui();
-    private static Storage storage = new Storage("../../data/Max.txt");
+    private static Storage storage = new Storage("src/data/Max.txt");
     private static TaskList tasks;  
+
 
 
   /**
@@ -94,10 +96,16 @@ public class Max {
                 ui.showTasksOn(tasks.getTasksOn(date)); 
                 return true;
             }
+            case "find": {
+                String args = Parser.getArguments(response);
+                List<Task> matches = tasks.find(args);
+                ui.showMatchingTasks(matches);
+                return true;
+            }
             default:
                 throw new UnknownCommandException();
         }
-    }
+   }
     
     public static void main(String[] args) {
         ui.showBanner();
