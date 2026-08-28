@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
-
+import java.util.List;
 import javax.swing.UIManager;
 
 
@@ -22,7 +22,7 @@ import max.ui.Ui;
 
 public class Max {
   private static Ui ui = new Ui();
-  private static Storage storage = new Storage("../../data/Max.txt");
+  private static Storage storage = new Storage("src/data/Max.txt");
   private static TaskList tasks;  
 
   public static boolean echo(String response) throws MaxException {
@@ -88,6 +88,12 @@ public class Max {
         ui.showTasksOn(tasks.getTasksOn(date)); 
         return true;
       }
+      case "find": {
+                String args = Parser.getArguments(response);
+                List<Task> matches = tasks.find(args);
+                ui.showMatchingTasks(matches);
+                return true;
+            }
       default:
         throw new UnknownCommandException();
     }

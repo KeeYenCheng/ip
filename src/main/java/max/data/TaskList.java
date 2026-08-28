@@ -57,5 +57,9 @@ public class TaskList {
     return tasks.stream().filter(task -> task.isOn(date))
                           .collect(Collectors.toList());
   }
-
+    public List<Task> find(String keyword) {
+        return tasks.stream()
+                    .filter(task -> task.getTask().contains(keyword.toLowerCase()))
+                    .collect(Collectors.toList());
+    }
 }
