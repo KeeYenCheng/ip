@@ -3,6 +3,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -25,6 +28,10 @@ public class Storage {
 
   public void save(List<Task> tasks) throws IOException {
     StringBuilder res = new StringBuilder();
+    Path path = Paths.get(filePath);
+    if (path.getParent() != null) {
+            Files.createDirectories(path.getParent());
+        }
     for (Task task: tasks) {
       res.append(task.getItemString()).append("\n");
     }
