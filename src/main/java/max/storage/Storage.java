@@ -16,11 +16,11 @@ import max.task.Event;
 import max.task.Todo;
 
 public class Storage {
-  private String filePath;
+    private String filePath;
 
-  public Storage(String filePath) {
-    this.filePath = filePath;
-  }
+    public Storage(String filePath) {
+        this.filePath = filePath;
+    }
 
 
   /**
@@ -29,14 +29,14 @@ public class Storage {
    * @param tasks list of task to save.
    * @throws IOException when the filepath is invalid 
    */
-  public void save(List<Task> tasks) throws IOException {
-    StringBuilder res = new StringBuilder();
-    for (Task task: tasks) {
-      res.append(task.getItemString()).append("\n");
-    }
-    try (FileWriter fw = new FileWriter(filePath)) {
-      fw.write(res.toString());
-    }
+    public void save(List<Task> tasks) throws IOException {
+        StringBuilder res = new StringBuilder();
+        for (Task task: tasks) {
+            res.append(task.getItemString()).append("\n");
+        }
+        try (FileWriter fw = new FileWriter(filePath)) {
+        fw.write(res.toString());
+        }
   }
 
   /**
@@ -45,37 +45,37 @@ public class Storage {
    * @return ArrayList<Task> list of task from the text file.
    * @throws FileNotFoundException when the file does not exist 
    */
-  public ArrayList<Task> load() throws FileNotFoundException {
-    ArrayList<Task> tasks = new ArrayList<>();
-    File f = new File(filePath);
-    if (!f.exists()) {
-      return tasks;
-    }
+    public ArrayList<Task> load() throws FileNotFoundException {
+        ArrayList<Task> tasks = new ArrayList<>();
+        File f = new File(filePath);
+        if (!f.exists()) {
+            return tasks;
+        }
 
-    Scanner s = new Scanner(f);
-    while (s.hasNext()) {
-      String line = s.nextLine();
-      String[] data = line.split(Pattern.quote(" | "));
-      TaskType type = TaskType.fromSymbol(data[0]);
-      
-      switch (type) {
-        case TODO:
-          tasks.add(new Todo(data[2], Status.fromSymbol(data[1])));
-          break;
-        case DEADLINE:
-          LocalDate date = LocalDate.parse(data[3]);
-          tasks.add(new Deadline(data[2], Status.fromSymbol(data[1]), date));
-          break;
-        case EVENT:
-          LocalDate start = LocalDate.parse(data[3]);
-          LocalDate end = LocalDate.parse(data[4]);
-          tasks.add(new Event(data[2], Status.fromSymbol(data[1]), start, end));
-          break;
-        default:
-          break;
-      }
+        Scanner s = new Scanner(f);
+        while (s.hasNext()) {
+            String line = s.nextLine();
+            String[] data = line.split(Pattern.quote(" | "));
+            TaskType type = TaskType.fromSymbol(data[0]);
+            
+            switch (type) {
+                case TODO:
+                    tasks.add(new Todo(data[2], Status.fromSymbol(data[1])));
+                    break;
+                case DEADLINE:
+                    LocalDate date = LocalDate.parse(data[3]);
+                    tasks.add(new Deadline(data[2], Status.fromSymbol(data[1]), date));
+                    break;
+                case EVENT:
+                    LocalDate start = LocalDate.parse(data[3]);
+                    LocalDate end = LocalDate.parse(data[4]);
+                    tasks.add(new Event(data[2], Status.fromSymbol(data[1]), start, end));
+                    break;
+                default:
+                    break;
+            }
+        }
+        s.close();
+        return tasks;
     }
-    s.close();
-    return tasks;
-  }
 }

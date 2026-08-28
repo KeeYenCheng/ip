@@ -5,45 +5,45 @@ import max.data.TaskType;
 
 public abstract class Task {
 
-  private String desc;
-  private Status isDone = Status.NOT_DONE;
-  private TaskType type;
+    private String desc;
+    private Status isDone = Status.NOT_DONE;
+    private TaskType type;
 
-  public Task(String task, TaskType type) {
-    this.desc = task;
-    this.type = type;
-  }
+    public Task(String task, TaskType type) {
+        this.desc = task;
+        this.type = type;
+    }
 
-  public Task(String task, TaskType type, Status isDone) {
-    this.desc = task;
-    this.type = type;
-    this.isDone = isDone;
-  }
+    public Task(String task, TaskType type, Status isDone) {
+        this.desc = task;
+        this.type = type;
+        this.isDone = isDone;
+    }
+    
+    public String getTask() {
+         return this.desc;
+    }
 
-  public String getTask() {
-     return this.desc;
-  }
+    public void isDone() {
+        this.isDone = Status.DONE;
+    }
 
-  public void isDone() {
-    this.isDone = Status.DONE;
-  }
-  
-  public void notDone() {
-    this.isDone = Status.NOT_DONE;
-  }
+    public void notDone() {
+        this.isDone = Status.NOT_DONE;
+    }
 
-  public boolean isOn(LocalDate date) {
-    return false;
-  }
+    public boolean isOn(LocalDate date) {
+        return false;
+    }
 
 
-  public String getItemString() {
-        return this.type + " | " + this.isDone + " | " + this.desc;
-  }
-  
-  @Override
-  public String toString() {
-    return this.type.toString() + this.isDone + this.desc;
-  }
+    public String getItemString() {
+                return this.type + " | " + this.isDone + " | " + this.desc;
+    }
+    
+    @Override
+    public String toString() {
+        return this.type.toString() + this.isDone + this.desc;
+    }
 
 } 
