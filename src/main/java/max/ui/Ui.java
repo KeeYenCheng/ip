@@ -140,7 +140,6 @@ public class Ui {
             System.out.println(tabSpace + task);
             }
         }
-
     /**
      * Show task added.
      *
