@@ -1,7 +1,5 @@
 package max.ui;
-import max.task.Task;
-import java.util.List;
-
+import max.task.Task; import java.util.List;
 
 public class Ui {
     public static String tabSpace = "        ";
