@@ -144,7 +144,7 @@ public class Max {
         }
    }
     
-    public static void main(String[] args) {
+    public static void main(String... args) {
         ui.showBanner();
 
         try {
