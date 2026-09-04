@@ -20,14 +20,13 @@ public abstract class Task {
         this.isDone = isDone;
     }
     
-    public String getTask() {
+    public String getDescription() {
          return this.desc;
     }
 
-    public void isDone() {
+    public void markAsDone() {
         this.isDone = Status.DONE;
     }
-
     public void notDone() {
         this.isDone = Status.NOT_DONE;
     }
@@ -43,7 +42,7 @@ public abstract class Task {
     
     @Override
     public String toString() {
-        return this.type.toString() + this.isDone + this.desc;
+        return this.type.toString() + " " + this.isDone + " " + this.desc;
     }
 
 } 

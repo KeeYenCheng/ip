@@ -10,8 +10,12 @@ import max.maxexception.UnknownCommandException;
 
 import max.storage.Storage;
 import max.command.Parser;
-import max.task.*;
-import max.data.*;
+import max.task.Deadline;
+import max.task.Task;
+import max.task.Event;
+import max.task.Todo;
+
+import max.data.TaskList;
 
 
 public class Max {
@@ -19,6 +23,36 @@ public class Max {
     private static Ui ui = new Ui();
     private static Storage storage = new Storage("src/data/Max.txt");
     private static TaskList tasks;  
+
+    /**
+     * Creates a command processor and loads the saved task list.
+     */
+    public Max() {
+        if (tasks == null) {
+            try {
+                tasks = new TaskList(storage.load());
+            } catch (FileNotFoundException e) {
+                tasks = new TaskList();
+            }
+        }
+    }
+
+    /**
+     * Processes a command for the graphical interface.
+     *
+     * @param command command entered by the user
+     * @return a short status message for the conversation
+     */
+    public String getResponse(String command) {
+        try {
+            processCommand(command);
+            storage.save(tasks.getAllTask());
+            return ui.getLastResponse();
+        } catch (MaxException | IOException e) {
+            ui.showError(e.getMessage());
+            return ui.getLastResponse();
+        }
+    }
 
 
 
@@ -33,15 +67,18 @@ public class Max {
    * Write me later
    * ```
    */
-    public static boolean echo(String response) throws MaxException {
+    public static boolean processCommand(String response) throws MaxException {
+        if (tasks == null) {
+            new Max();
+        }
         String command = Parser.getCommandWord(response);
 
         switch (command) {
-            case "bye":
+            case "BYE":
                 ui.showGoodBye();
                 return false;
             case "list":
-                ui.showAllTasks(tasks.getAll());
+                ui.showAllTasks(tasks.getAllTask());
                 return true;
             case "todo": {
                 String args = Parser.getArguments(response);
@@ -124,7 +161,7 @@ public class Max {
             ui.showLine();
             
             try {
-                repeat = echo(response);
+                repeat = processCommand(response);
             } catch (MaxException e) {
                 ui.showError(e.getMessage());
                 ui.showLine();
@@ -134,7 +171,7 @@ public class Max {
             ui.showLine();
 
             try {
-                storage.save(tasks.getAll());
+                storage.save(tasks.getAllTask());
             } catch (IOException e) {
                 ui.showError("Could not save: " + e.getMessage());
             }
