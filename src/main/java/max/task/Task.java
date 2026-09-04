@@ -42,7 +42,7 @@ public abstract class Task {
     
     @Override
     public String toString() {
-        return this.type.toString() + this.isDone + this.desc;
+        return this.type.toString() + " " + this.isDone + " " + this.desc;
     }
 
 } 

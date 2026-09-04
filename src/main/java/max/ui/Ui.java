@@ -3,6 +3,7 @@ import max.task.Task; import java.util.List;
 
 public class Ui {
     public static String TAB_SPACE = "        ";
+    private String lastResponse = "";
     private static String BANNER = "  _____  _____ ___  ___\n" 
                                  + " /     \\\\__  \\ \\  \\/  /\n" 
                                  + "|  Y Y  \\/ __ \\_>    < \n"
@@ -45,7 +46,7 @@ public class Ui {
      */
 
     public void showError(String msg) {
-        System.out.println(msg); 
+        showResponse(msg);
     }
 
     /**
@@ -64,6 +65,15 @@ public class Ui {
     }
 
     /**
+     * Returns the greeting shown when Max starts.
+     *
+     * @return Max's greeting
+     */
+    public String getGreetings() {
+        return GREETINGS;
+    }
+
+    /**
      * Display deleted task message.
      *
      * @param task Task : the task deleted.
@@ -72,13 +82,13 @@ public class Ui {
      *
      * @example
      * ```
-     * 
+    * 
      * ```
      */
     public void showTaskDeleted(Task task, int remainingCount) {
-        System.out.println(TAB_SPACE + "Okay! I've deleted this task from the list");
-        System.out.println(TAB_SPACE + task);
-        System.out.println(TAB_SPACE + "Now you have " + remainingCount + " in the list");
+        showResponse(TAB_SPACE + "Okay! I've deleted this task from the list\n"
+                + TAB_SPACE + task + "\n"
+                + TAB_SPACE + "Now you have " + remainingCount + " in the list");
     }
 
     /**
@@ -96,8 +106,7 @@ public class Ui {
      * ```
      */
     public void showTaskMarkedDone(Task task) {
-        System.out.println(TAB_SPACE + "Nice! I've marked this task as done");
-        System.out.println(TAB_SPACE + task);
+        showResponse(TAB_SPACE + "Nice! I've marked this task as done\n" + TAB_SPACE + task);
     }
 
     /**
@@ -106,8 +115,7 @@ public class Ui {
      * @param task Task that was to be marked not done.
      */
     public void showTaskMarkedNotDone(Task task) {
-        System.out.println(TAB_SPACE + "Ok! I've marked this task as not done");
-        System.out.println(TAB_SPACE + task);
+        showResponse("Ok! I've marked this task as not done\n" + TAB_SPACE + task);
     }
 
     /**
@@ -118,26 +126,31 @@ public class Ui {
      */
     public void showAllTasks(List<Task> tasks) {
         if (tasks.isEmpty()) {
-            System.out.println(TAB_SPACE + "there is currently no task");
+            showResponse( "there is currently no task");
             return;
-                }
-                 for (Task task : tasks) {
-            System.out.println(TAB_SPACE + task);
-            }
+        }
+        StringBuilder response = new StringBuilder();
+        response.append("These are the current task\n");
+        for (Task task : tasks) {
+            response.append(task).append("\n");
+        }
+        showResponse(response.toString().stripTrailing());
 
-     }
-        
-         /**
+    }
+
+    /**
      * Show task on specified date.
      *
      * @param  tasks list of task to be displayed.
      *
      */
     public void showTasksOn(List<Task> tasks) {
+        StringBuilder response = new StringBuilder();
         for (Task task : tasks) {
-            System.out.println(TAB_SPACE + task);
-            }
+            response.append(task).append("\n");
         }
+        showResponse(response.toString().stripTrailing());
+    }
     /**
      * Show task added.
      *
@@ -145,8 +158,8 @@ public class Ui {
      * @param totalTasks number of task in total 
      */
     public void showTaskAdded(Task task, int totalTasks) {
-        System.out.println(TAB_SPACE + "Task added:\n" + TAB_SPACE + task);
-        System.out.println(TAB_SPACE + "Now you have " + totalTasks + " in the list");
+        showResponse("Task added:\n" + task + "\n"
+                +  "Now you have " + totalTasks + " in the list");
     }
 
     /**
@@ -154,18 +167,34 @@ public class Ui {
      *
      */
     public void showGoodBye() {
-        System.out.println(BYE);
+        showResponse(BYE);
     }
 
 
     public void showMatchingTasks(List<Task> tasks) {
         if (tasks.isEmpty()) {
-            System.out.println(TAB_SPACE + "No matching tasks found in your list."); 
+            showResponse("No matching tasks found in your list.");
             return;
         }
-        System.out.println(TAB_SPACE + "Here are the matching tasks in your list");
+        StringBuilder response = new StringBuilder(TAB_SPACE)
+                .append("Here are the matching tasks in your list");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println(TAB_SPACE + (i+1) + "." + tasks.get(i)); 
+            response.append("\n").append(i + 1).append(".").append(tasks.get(i));
         }
+        showResponse(response.toString());
+    }
+
+    /**
+     * Returns the most recent response displayed by this UI.
+     *
+     * @return the most recent displayed response
+     */
+    public String getLastResponse() {
+        return lastResponse;
+    }
+
+    private void showResponse(String response) {
+        lastResponse = response;
+        System.out.println(response);
     }
 } 

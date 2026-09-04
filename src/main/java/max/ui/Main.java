@@ -2,7 +2,6 @@ package max.ui;
 
 import java.io.IOException;
 
-import com.sun.javafx.perf.PerformanceTracker.SceneAccessor;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,9 +13,11 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml") );
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
+            fxmlLoader.<MainWindow>getController().setMax(new Max());
             Scene scene = new Scene(ap);
+            stage.setTitle("Max");
             stage.setScene(scene);
             stage.setMinHeight(220);
             stage.setMinWidth(417);

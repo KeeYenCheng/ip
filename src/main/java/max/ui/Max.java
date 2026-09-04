@@ -24,6 +24,36 @@ public class Max {
     private static Storage storage = new Storage("src/data/Max.txt");
     private static TaskList tasks;  
 
+    /**
+     * Creates a command processor and loads the saved task list.
+     */
+    public Max() {
+        if (tasks == null) {
+            try {
+                tasks = new TaskList(storage.load());
+            } catch (FileNotFoundException e) {
+                tasks = new TaskList();
+            }
+        }
+    }
+
+    /**
+     * Processes a command for the graphical interface.
+     *
+     * @param command command entered by the user
+     * @return a short status message for the conversation
+     */
+    public String getResponse(String command) {
+        try {
+            processCommand(command);
+            storage.save(tasks.getAllTask());
+            return ui.getLastResponse();
+        } catch (MaxException | IOException e) {
+            ui.showError(e.getMessage());
+            return ui.getLastResponse();
+        }
+    }
+
 
 
   /**
@@ -38,6 +68,9 @@ public class Max {
    * ```
    */
     public static boolean processCommand(String response) throws MaxException {
+        if (tasks == null) {
+            new Max();
+        }
         String command = Parser.getCommandWord(response);
 
         switch (command) {

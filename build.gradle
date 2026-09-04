@@ -17,27 +17,21 @@ repositories {
 
 dependencies {
     String jUnitVersion = '5.14.4'
-    String javaFxVersion = '17.0.7'
+    String javaFxVersion = '25.0.1'
     
     testImplementation "org.junit.jupiter:junit-jupiter-api:${jUnitVersion}"
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${jUnitVersion}"
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.14.4'
     
-  
+    String platform = org.gradle.internal.os.OperatingSystem.current().isWindows()
+            ? 'win'
+            : org.gradle.internal.os.OperatingSystem.current().isMacOsX() ? 'mac' : 'linux'
 
-    implementation("org.openjfx:javafx-base:${javaFxVersion}:win")
-    implementation("org.openjfx:javafx-base:${javaFxVersion}:mac")
-    implementation("org.openjfx:javafx-base:${javaFxVersion}:linux")
-    implementation("org.openjfx:javafx-controls:${javaFxVersion}:win")
-    implementation("org.openjfx:javafx-controls:${javaFxVersion}:mac")
-    implementation("org.openjfx:javafx-controls:${javaFxVersion}:linux")
-    implementation("org.openjfx:javafx-fxml:${javaFxVersion}:win")
-    implementation("org.openjfx:javafx-fxml:${javaFxVersion}:mac")
-    implementation("org.openjfx:javafx-fxml:${javaFxVersion}:linux")
-    implementation("org.openjfx:javafx-graphics:${javaFxVersion}:win")
-    implementation("org.openjfx:javafx-graphics:${javaFxVersion}:mac")
-    implementation("org.openjfx:javafx-graphics:${javaFxVersion}:linux")
+    implementation("org.openjfx:javafx-base:${javaFxVersion}:${platform}")
+    implementation("org.openjfx:javafx-controls:${javaFxVersion}:${platform}")
+    implementation("org.openjfx:javafx-fxml:${javaFxVersion}:${platform}")
+    implementation("org.openjfx:javafx-graphics:${javaFxVersion}:${platform}")
 
 }
 
@@ -57,7 +51,7 @@ test {
 }
 
 application {
-    mainClass = 'max.ui.Max'
+    mainClass = "max.ui.Launcher"
 }
 
 jar {
