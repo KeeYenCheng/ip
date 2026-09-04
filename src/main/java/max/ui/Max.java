@@ -10,8 +10,12 @@ import max.maxexception.UnknownCommandException;
 
 import max.storage.Storage;
 import max.command.Parser;
-import max.task.*;
-import max.data.*;
+import max.task.Deadline;
+import max.task.Task;
+import max.task.Event;
+import max.task.Todo;
+
+import max.data.TaskList;
 
 
 public class Max {
@@ -33,15 +37,15 @@ public class Max {
    * Write me later
    * ```
    */
-    public static boolean echo(String response) throws MaxException {
+    public static boolean processCommand(String response) throws MaxException {
         String command = Parser.getCommandWord(response);
 
         switch (command) {
-            case "bye":
+            case "BYE":
                 ui.showGoodBye();
                 return false;
             case "list":
-                ui.showAllTasks(tasks.getAll());
+                ui.showAllTasks(tasks.getAllTask());
                 return true;
             case "todo": {
                 String args = Parser.getArguments(response);
@@ -124,7 +128,7 @@ public class Max {
             ui.showLine();
             
             try {
-                repeat = echo(response);
+                repeat = processCommand(response);
             } catch (MaxException e) {
                 ui.showError(e.getMessage());
                 ui.showLine();
@@ -134,7 +138,7 @@ public class Max {
             ui.showLine();
 
             try {
-                storage.save(tasks.getAll());
+                storage.save(tasks.getAllTask());
             } catch (IOException e) {
                 ui.showError("Could not save: " + e.getMessage());
             }

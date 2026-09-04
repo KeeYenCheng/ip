@@ -33,7 +33,7 @@ public class TaskList {
             throw new InvalidTaskIDException();
         }
         Task t = tasks.get(i - 1);
-        t.isDone();
+        t.markAsDone();
         return t;
     }
 
@@ -50,7 +50,7 @@ public class TaskList {
         return tasks.size();
     }
 
-    public ArrayList<Task> getAll() {
+    public ArrayList<Task> getAllTask() {
         return tasks;
     }
 
@@ -61,7 +61,7 @@ public class TaskList {
    
     public List<Task> find(String keyword) {
         return tasks.stream()
-                    .filter(task -> task.getTask().contains(keyword.toLowerCase()))
+                    .filter(task -> task.getDescription().toLowerCase().contains(keyword.toLowerCase()))
                     .collect(Collectors.toList());
     }
 }

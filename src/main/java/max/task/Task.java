@@ -20,14 +20,13 @@ public abstract class Task {
         this.isDone = isDone;
     }
     
-    public String getTask() {
+    public String getDescription() {
          return this.desc;
     }
 
-    public void isDone() {
+    public void markAsDone() {
         this.isDone = Status.DONE;
     }
-
     public void notDone() {
         this.isDone = Status.NOT_DONE;
     }
