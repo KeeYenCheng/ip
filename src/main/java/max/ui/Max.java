@@ -23,6 +23,7 @@ public class Max {
     private static Ui ui = new Ui();
     private static Storage storage = new Storage("src/data/Max.txt");
     private static TaskList tasks;  
+    private boolean lastResponseWasError;
 
     /**
      * Creates a command processor and loads the saved task list.
@@ -48,13 +49,19 @@ public class Max {
         try {
             processCommand(command);
             storage.save(tasks.getAllTask());
+            lastResponseWasError = false;
             return ui.getLastResponse();
         } catch (MaxException | IOException e) {
             ui.showError(e.getMessage());
+            lastResponseWasError = true;
             return ui.getLastResponse();
         }
     }
 
+    /** Returns whether the most recent GUI response describes an error. */
+    public boolean wasLastResponseAnError() {
+        return lastResponseWasError;
+    }
 
 
   /**
@@ -81,6 +88,10 @@ public class Max {
                 return false;
             case "list":
                 ui.showAllTasks(tasks.getAllTask());
+                return true;
+            case "sort":
+                tasks.sortByDeadline();
+                ui.showSortedTasks(tasks.getAllTask());
                 return true;
             case "todo":
                 return handleTodo(response);

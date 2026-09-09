@@ -3,7 +3,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
@@ -23,13 +22,10 @@ public class MainWindow extends AnchorPane {
     private Max max;
 
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image maxImage = new Image(this.getClass().getResourceAsStream("/images/Max.png"));
-
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-        dialogContainer.getChildren().add(DialogBox.getMaxDialog(new Ui().getGreetings(), maxImage));
+        dialogContainer.getChildren().add(DialogBox.getMaxDialog(new Ui().getGreetings(), null));
     }
 
     /** Injects the command processor used by the GUI. */
@@ -46,8 +42,8 @@ public class MainWindow extends AnchorPane {
         String input = userInput.getText();
         String response = max.getResponse(input);
         dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input, userImage),
-                DialogBox.getMaxDialog(response, maxImage)
+                DialogBox.getUserDialog(input, null),
+                DialogBox.getMaxDialog(response, null, max.wasLastResponseAnError())
         );
         userInput.clear();
     }

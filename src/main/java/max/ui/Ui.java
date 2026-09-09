@@ -141,6 +141,24 @@ public class Ui {
     }
 
     /**
+     * Displays the task list after sorting deadline tasks chronologically.
+     *
+     * @param tasks tasks to be displayed
+     */
+    public void showSortedTasks(List<Task> tasks) {
+        if (tasks.isEmpty()) {
+            showResponse("there is currently no task");
+            return;
+        }
+
+        String response = "Tasks sorted by deadline:\n"
+                + tasks.stream()
+                .map(Task::toString)
+                .collect(Collectors.joining("\n"));
+        showResponse(response);
+    }
+
+    /**
      * Show task on specified date.
      *
      * @param  tasks list of task to be displayed.
