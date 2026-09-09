@@ -1,5 +1,6 @@
 package max.ui;
 import max.task.Task; import java.util.List;
+import java.util.stream.Collectors;
 
 public class Ui {
     public static String TAB_SPACE = "        ";
@@ -129,12 +130,13 @@ public class Ui {
             showResponse( "there is currently no task");
             return;
         }
-        StringBuilder response = new StringBuilder();
-        response.append("These are the current task\n");
-        for (Task task : tasks) {
-            response.append(task).append("\n");
-        }
-        showResponse(response.toString().stripTrailing());
+        
+        String response = "These are the current task\n" 
+                            + tasks.stream()
+                                .map(Task::toString)
+                                .collect(Collectors.joining("\n", "", "\n"));
+
+        showResponse(response.stripTrailing());
 
     }
 
@@ -145,11 +147,8 @@ public class Ui {
      *
      */
     public void showTasksOn(List<Task> tasks) {
-        StringBuilder response = new StringBuilder();
-        for (Task task : tasks) {
-            response.append(task).append("\n");
-        }
-        showResponse(response.toString().stripTrailing());
+        String response = tasks.stream().map(Task::toString).collect((Collectors.joining("\n", "", "\n")));
+        showResponse(response.stripTrailing());
     }
     /**
      * Show task added.
@@ -176,11 +175,8 @@ public class Ui {
             showResponse("No matching tasks found in your list.");
             return;
         }
-        StringBuilder response = new StringBuilder(TAB_SPACE)
-                .append("Here are the matching tasks in your list");
-        for (int i = 0; i < tasks.size(); i++) {
-            response.append("\n").append(i + 1).append(".").append(tasks.get(i));
-        }
+        String response = "Here are the matching tasks in your list \n" +
+                            tasks.stream().map(Task::toString).collect(Collectors.joining("\n", "", "\n"));
         showResponse(response.toString());
     }
 
