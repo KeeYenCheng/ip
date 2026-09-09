@@ -24,4 +24,5 @@ jobs:
           java-package: jdk+fx
 
       - name: Build and check with Gradle
+        run: chmod +x ./gradlew
         run: ./gradlew check
