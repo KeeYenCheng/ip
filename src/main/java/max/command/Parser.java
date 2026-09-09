@@ -62,6 +62,7 @@ public class Parser {
     if (ddl.length < 2) {
       throw new MissingDatesException();
     }
+    assert ddl.length >= 2 : "A valid deadline split has a description and date";
     return ddl;
   }
 
@@ -81,6 +82,8 @@ public class Parser {
     if (startEnd.length < 2) {
       throw new MissingDatesException();
     }
+    assert evt.length >= 2 : "A valid event split has a start marker";
+    assert startEnd.length >= 2 : "A valid event split has an end marker";
     return new String[] {evt[0], startEnd[0], startEnd[1]};
   }
 
