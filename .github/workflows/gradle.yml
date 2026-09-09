@@ -23,5 +23,8 @@ jobs:
           java-version: '25'
           java-package: jdk+fx
 
+      - name: Permission to use gradlew
+        run: chmod +x ./gradlew
+
       - name: Build and check with Gradle
         run: ./gradlew check
