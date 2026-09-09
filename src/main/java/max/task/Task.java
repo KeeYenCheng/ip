@@ -10,11 +10,14 @@ public abstract class Task {
     private TaskType type;
 
     public Task(String task, TaskType type) {
+        assert type != null : "Every task must have a task type";
         this.desc = task;
         this.type = type;
     }
 
     public Task(String task, TaskType type, Status isDone) {
+        assert type != null : "Every task must have a task type";
+        assert isDone != null : "Every task must have a completion status";
         this.desc = task;
         this.type = type;
         this.isDone = isDone;

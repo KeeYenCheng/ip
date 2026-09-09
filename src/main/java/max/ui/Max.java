@@ -35,6 +35,7 @@ public class Max {
                 tasks = new TaskList();
             }
         }
+        assert tasks != null : "Max must have a task list after initialization";
     }
 
     /**
@@ -71,6 +72,7 @@ public class Max {
         if (tasks == null) {
             new Max();
         }
+        assert tasks != null : "Commands require an initialized task list";
         String command = Parser.getCommandWord(response);
 
         switch (command) {

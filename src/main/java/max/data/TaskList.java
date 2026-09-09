@@ -11,13 +11,16 @@ public class TaskList {
 
     public TaskList() {
         this.tasks = new ArrayList<>();
+        assert tasks != null : "A task list must always have a backing collection";
     }
 
     public TaskList(ArrayList<Task> loadedTasks) {
+        assert loadedTasks != null : "Loaded tasks must provide a backing collection";
         this.tasks = loadedTasks;
     }
 
     public void add(Task task) {
+        assert task != null : "The task list must not contain null entries";
         tasks.add(task);
     }
 
@@ -25,7 +28,9 @@ public class TaskList {
         if (i <= 0 || i > tasks.size()) {
             throw new InvalidTaskIDException();
         }
-        return tasks.remove(i - 1);
+        Task removed = tasks.remove(i - 1);
+        assert removed != null : "A valid task index must refer to a task";
+        return removed;
     }
 
     public Task setDone(int i) throws InvalidTaskIDException {
@@ -33,6 +38,7 @@ public class TaskList {
             throw new InvalidTaskIDException();
         }
         Task t = tasks.get(i - 1);
+        assert t != null : "A valid task index must refer to a task";
         t.markAsDone();
         return t;
     }
@@ -42,6 +48,7 @@ public class TaskList {
             throw new InvalidTaskIDException();
         }
         Task t = tasks.get(i - 1);
+        assert t != null : "A valid task index must refer to a task";
         t.notDone();
         return t;
     }

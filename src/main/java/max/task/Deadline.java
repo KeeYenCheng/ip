@@ -11,10 +11,12 @@ public class Deadline extends Task {
 
     public Deadline(String desc, LocalDate date) {
         super(desc, TaskType.DEADLINE);
+        assert date != null : "A deadline must have a date";
         this.date = date;
     }
     public Deadline(String desc, Status status, LocalDate date) {
         super(desc, TaskType.DEADLINE, status);
+        assert date != null : "A deadline must have a date";
         this.date = date;
     }
     

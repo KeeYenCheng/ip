@@ -15,6 +15,9 @@ public class Event extends Task {
 
     public Event(String desc, LocalDate start, LocalDate end) {
         super(desc, TaskType.EVENT);
+        assert start != null : "An event must have a start date";
+        assert end != null : "An event must have an end date";
+        assert !end.isBefore(start) : "An event cannot end before it starts";
         this.start = start;
         this.end = end;
 
@@ -22,6 +25,9 @@ public class Event extends Task {
 
     public Event(String desc, Status status, LocalDate start, LocalDate end) {
         super(desc, TaskType.EVENT, status);
+        assert start != null : "An event must have a start date";
+        assert end != null : "An event must have an end date";
+        assert !end.isBefore(start) : "An event cannot end before it starts";
         this.start = start;
         this.end = end;
     }
