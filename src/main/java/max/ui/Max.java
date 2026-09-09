@@ -80,69 +80,88 @@ public class Max {
             case "list":
                 ui.showAllTasks(tasks.getAllTask());
                 return true;
-            case "todo": {
-                String args = Parser.getArguments(response);
-                Todo newTodo = new Todo(args);
-                tasks.add(newTodo);
-                ui.showTaskAdded(newTodo, tasks.size());
-                return true;
-            }
-            case "deadline": { 
-                String args = Parser.getArguments(response);
-                String[] ddl = Parser.parseDeadline(args);
-                LocalDate date = Parser.parseDate(ddl[1]);
-                Deadline deadline = new Deadline(ddl[0], date);
-                tasks.add(deadline);
-                ui.showTaskAdded(deadline, tasks.size());
-                return true;
-            }
-            case "event": {
-                String args = Parser.getArguments(response);
-                String[] evt = Parser.parseEvent(args);
-                LocalDate start = Parser.parseDate(evt[1]);
-                LocalDate end = Parser.parseDate(evt[2]);
-                Event event = new Event(evt[0], start, end);
-                tasks.add(event);
-                ui.showTaskAdded(event, tasks.size());
-                return true;
-            }
-            case "mark": {
-                String args = Parser.getArguments(response);
-                int index = Parser.parseIndex(args);
-                Task task = tasks.setDone(index);
-                ui.showTaskMarkedDone(task);
-                return true;
-            }
-            case "unmark": {
-                String args = Parser.getArguments(response);
-                int index = Parser.parseIndex(args);
-                Task task = tasks.setNotDone(index);
-                ui.showTaskMarkedNotDone(task);
-                return true;
-            }
-            case "delete": {
-                String args = Parser.getArguments(response);
-                int index = Parser.parseIndex(args);
-                Task removed = tasks.delete(index);
-                ui.showTaskDeleted(removed, tasks.size());;
-                return true;
-            }
-            case "on": {
-                String args = Parser.getArguments(response);
-                LocalDate date = Parser.parseDate(args);
-                ui.showTasksOn(tasks.getTasksOn(date)); 
-                return true;
-            }
-            case "find": {
-                String args = Parser.getArguments(response);
-                List<Task> matches = tasks.find(args);
-                ui.showMatchingTasks(matches);
-                return true;
-            }
+            case "todo":
+                return handleTodo(response);
+            case "deadline":
+                return handleDeadline(response);
+            case "event":
+                return handleEvent(response);
+            case "mark":
+                return handleMark(response);
+            case "unmark":
+                return handleUnmark(response);
+            case "delete":
+                return handleDelete(response);
+            case "on":
+                return handleTasksOn(response);
+            case "find":
+                return handleFind(response);
             default:
                 throw new UnknownCommandException();
         }
    }
+
+    private static boolean handleTodo(String response) throws MaxException {
+        String args = Parser.getArguments(response);
+        Todo newTodo = new Todo(args);
+        tasks.add(newTodo);
+        ui.showTaskAdded(newTodo, tasks.size());
+        return true;
+    }
+
+    private static boolean handleDeadline(String response) throws MaxException {
+        String args = Parser.getArguments(response);
+        String[] ddl = Parser.parseDeadline(args);
+        LocalDate date = Parser.parseDate(ddl[1]);
+        Deadline deadline = new Deadline(ddl[0], date);
+        tasks.add(deadline);
+        ui.showTaskAdded(deadline, tasks.size());
+        return true;
+    }
+
+    private static boolean handleEvent(String response) throws MaxException {
+        String args = Parser.getArguments(response);
+        String[] evt = Parser.parseEvent(args);
+        LocalDate start = Parser.parseDate(evt[1]);
+        LocalDate end = Parser.parseDate(evt[2]);
+        Event event = new Event(evt[0], start, end);
+        tasks.add(event);
+        ui.showTaskAdded(event, tasks.size());
+        return true;
+    }
+
+    private static boolean handleMark(String response) throws MaxException {
+        int index = Parser.parseIndex(Parser.getArguments(response));
+        Task task = tasks.setDone(index);
+        ui.showTaskMarkedDone(task);
+        return true;
+    }
+
+    private static boolean handleUnmark(String response) throws MaxException {
+        int index = Parser.parseIndex(Parser.getArguments(response));
+        Task task = tasks.setNotDone(index);
+        ui.showTaskMarkedNotDone(task);
+        return true;
+    }
+
+    private static boolean handleDelete(String response) throws MaxException {
+        int index = Parser.parseIndex(Parser.getArguments(response));
+        Task removed = tasks.delete(index);
+        ui.showTaskDeleted(removed, tasks.size());
+        return true;
+    }
+
+    private static boolean handleTasksOn(String response) throws MaxException {
+        LocalDate date = Parser.parseDate(Parser.getArguments(response));
+        ui.showTasksOn(tasks.getTasksOn(date));
+        return true;
+    }
+
+    private static boolean handleFind(String response) throws MaxException {
+        List<Task> matches = tasks.find(Parser.getArguments(response));
+        ui.showMatchingTasks(matches);
+        return true;
+    }
     
     public static void main(String... args) {
         ui.showBanner();
