@@ -3,17 +3,17 @@ import max.task.Task; import java.util.List;
 import java.util.stream.Collectors;
 
 public class Ui {
-    public static String TAB_SPACE = "        ";
+    public static String tabSpace = "        ";
     private String lastResponse = "";
-    private static String BANNER = "  _____  _____ ___  ___\n" 
+    private static String banner = "  _____  _____ ___  ___\n" 
                                  + " /     \\\\__  \\ \\  \\/  /\n" 
                                  + "|  Y Y  \\/ __ \\_>    < \n"
                                  + "|__|_|  (____  /__/\\_ \\\n" 
                                  + "      \\/     \\/      \\/\n";
-    private static String GREETINGS = TAB_SPACE + "Sup! I'm Max.\n"
-                                         + TAB_SPACE + "What do you need?";
-    private static String BAR = TAB_SPACE + "________________________________________";
-    private static String BYE = TAB_SPACE + "See ya later!\n";
+    private static String greetings = tabSpace + "Sup! I'm Max.\n"
+                                         + tabSpace + "What do you need?";
+    private static String bar = tabSpace + "________________________________________";
+    private static String bye = tabSpace + "See ya later!\n";
 
     /**
      * Print line separator.
@@ -30,7 +30,7 @@ public class Ui {
      * ```
      */
     public void showLine() {
-        System.out.println(BAR);
+        System.out.println(bar);
     }
 
     /**
@@ -59,9 +59,9 @@ public class Ui {
      * ```
      */
     public void showBanner() {
-        System.out.println(BANNER);
-        System.out.println(GREETINGS);
-        System.out.println(BAR);
+        System.out.println(banner);
+        System.out.println(greetings);
+        System.out.println(bar);
  
     }
 
@@ -71,7 +71,7 @@ public class Ui {
      * @return Max's greeting
      */
     public String getGreetings() {
-        return GREETINGS;
+        return greetings;
     }
 
     /**
@@ -87,9 +87,9 @@ public class Ui {
      * ```
      */
     public void showTaskDeleted(Task task, int remainingCount) {
-        showResponse(TAB_SPACE + "Okay! I've deleted this task from the list\n"
-                + TAB_SPACE + task + "\n"
-                + TAB_SPACE + "Now you have " + remainingCount + " in the list");
+        showResponse(tabSpace + "Okay! I've deleted this task from the list\n"
+                + tabSpace + task + "\n"
+                + tabSpace + "Now you have " + remainingCount + " in the list");
     }
 
     /**
@@ -107,7 +107,7 @@ public class Ui {
      * ```
      */
     public void showTaskMarkedDone(Task task) {
-        showResponse(TAB_SPACE + "Nice! I've marked this task as done\n" + TAB_SPACE + task);
+        showResponse(tabSpace + "Nice! I've marked this task as done\n" + tabSpace + task);
     }
 
     /**
@@ -116,7 +116,7 @@ public class Ui {
      * @param task Task that was to be marked not done.
      */
     public void showTaskMarkedNotDone(Task task) {
-        showResponse("Ok! I've marked this task as not done\n" + TAB_SPACE + task);
+        showResponse("Ok! I've marked this task as not done\n" + tabSpace + task);
     }
 
     /**
@@ -166,7 +166,7 @@ public class Ui {
      *
      */
     public void showGoodBye() {
-        showResponse(BYE);
+        showResponse(bye);
     }
 
 
