@@ -19,6 +19,11 @@ public class Deadline extends Task {
         assert date != null : "A deadline must have a date";
         this.date = date;
     }
+
+    /** Returns the date by which this task should be completed. */
+    public LocalDate getDate() {
+        return date;
+    }
     
     @Override
     public boolean isOn(LocalDate date) {

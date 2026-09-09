@@ -20,6 +20,15 @@ Example: `keyword (optional arguments)`
 expected output
 ```
 
+## Sorting deadlines
+
+Use `sort` to arrange deadline tasks from the earliest due date to the latest.
+Tasks without deadlines remain after the deadline tasks.
+
+Example: `sort`
+
+The sorted task list is displayed immediately after the command.
+
 ## Feature ABC
 
 // Feature details

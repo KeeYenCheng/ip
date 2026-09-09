@@ -3,7 +3,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
+import java.util.Comparator;
 import max.maxexception.InvalidTaskIDException;
+import max.task.Deadline;
 import max.task.Task;  
 
 public class TaskList {
@@ -59,6 +61,17 @@ public class TaskList {
 
     public ArrayList<Task> getAllTask() {
         return tasks;
+    }
+
+    /**
+     * Orders deadline tasks from the earliest due date to the latest.
+     *
+     * Non-deadline tasks are placed after deadlines and retain their relative order.
+     */
+    public void sortByDeadline() {
+        tasks.sort(Comparator.comparing(
+                task -> task instanceof Deadline ? ((Deadline) task).getDate() : null,
+                Comparator.nullsLast(Comparator.naturalOrder())));
     }
 
     public List<Task> getTasksOn(LocalDate date) {
