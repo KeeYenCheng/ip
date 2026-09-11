@@ -3,17 +3,16 @@ import max.task.Task; import java.util.List;
 import java.util.stream.Collectors;
 
 public class Ui {
-    public static String tabSpace = "        ";
     private String lastResponse = "";
     private static String banner = "  _____  _____ ___  ___\n" 
                                  + " /     \\\\__  \\ \\  \\/  /\n" 
                                  + "|  Y Y  \\/ __ \\_>    < \n"
                                  + "|__|_|  (____  /__/\\_ \\\n" 
                                  + "      \\/     \\/      \\/\n";
-    private static String greetings = tabSpace + "Sup! I'm Max.\n"
-                                         + tabSpace + "What do you need?";
-    private static String bar = tabSpace + "________________________________________";
-    private static String bye = tabSpace + "See ya later!\n";
+    private static String greetings = "Sup! I'm Max.\n"
+                                         + "What do you need?";
+    private static String bar = "________________________________________";
+    private static String bye =  "See ya later!\n";
 
     /**
      * Print line separator.
@@ -87,9 +86,9 @@ public class Ui {
      * ```
      */
     public void showTaskDeleted(Task task, int remainingCount) {
-        showResponse(tabSpace + "Okay! I've deleted this task from the list\n"
-                + tabSpace + task + "\n"
-                + tabSpace + "Now you have " + remainingCount + " in the list");
+        showResponse("Okay! I've deleted this task from the list\n"
+                + task + "\n"
+                + "Now you have " + remainingCount + " in the list");
     }
 
     /**
@@ -107,7 +106,7 @@ public class Ui {
      * ```
      */
     public void showTaskMarkedDone(Task task) {
-        showResponse(tabSpace + "Nice! I've marked this task as done\n" + tabSpace + task);
+        showResponse("Nice! I've marked this task as done\n" + task);
     }
 
     /**
@@ -116,7 +115,7 @@ public class Ui {
      * @param task Task that was to be marked not done.
      */
     public void showTaskMarkedNotDone(Task task) {
-        showResponse("Ok! I've marked this task as not done\n" + tabSpace + task);
+        showResponse("Ok! I've marked this task as not done\n" + task);
     }
 
     /**

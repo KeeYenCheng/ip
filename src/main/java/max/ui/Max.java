@@ -65,14 +65,13 @@ public class Max {
 
 
   /**
-   * Echo action base on response.
+   * Process command 
    *
    * @param response action to be done by the bot.
    * @return true if further action can be done else false.
    *
    * @example
    * ```
-   * Write me later
    * ```
    */
     public static boolean processCommand(String response) throws MaxException {
