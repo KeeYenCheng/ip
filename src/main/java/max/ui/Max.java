@@ -83,38 +83,50 @@ public class Max {
         String command = Parser.getCommandWord(response);
 
         switch (command) {
-            case "BYE":
-                ui.showGoodBye();
-                return false;
+            case "bye":
+                return handleByeCommand();
             case "list":
-                ui.showAllTasks(tasks.getAllTask());
-                return true;
+                return handleListCommand();
             case "sort":
-                tasks.sortByDeadline();
-                ui.showSortedTasks(tasks.getAllTask());
-                return true;
+                return handleSortCommand();
             case "todo":
-                return handleTodo(response);
+                return handleTodoCommand(response);
             case "deadline":
-                return handleDeadline(response);
+                return handleDeadlineCommand(response);
             case "event":
-                return handleEvent(response);
+                return handleEventCommand(response);
             case "mark":
-                return handleMark(response);
+                return handleMarkCommand(response);
             case "unmark":
-                return handleUnmark(response);
+                return handleUnmarkCommand(response);
             case "delete":
-                return handleDelete(response);
+                return handleDeleteCommand(response);
             case "on":
-                return handleTasksOn(response);
+                return handleOnCommand(response);
             case "find":
-                return handleFind(response);
+                return handleFindCommand(response);
             default:
                 throw new UnknownCommandException();
         }
    }
 
-    private static boolean handleTodo(String response) throws MaxException {
+    private static boolean handleByeCommand() {
+        ui.showGoodBye();
+        return false;
+    }
+
+    private static boolean handleListCommand() {
+        ui.showAllTasks(tasks.getAllTask());
+        return true;
+    }
+
+    private static boolean handleSortCommand() {
+        tasks.sortByDeadline();
+        ui.showSortedTasks(tasks.getAllTask());
+        return true;
+    }
+
+    private static boolean handleTodoCommand(String response) throws MaxException {
         String args = Parser.getArguments(response);
         Todo newTodo = new Todo(args);
         tasks.add(newTodo);
@@ -122,7 +134,7 @@ public class Max {
         return true;
     }
 
-    private static boolean handleDeadline(String response) throws MaxException {
+    private static boolean handleDeadlineCommand(String response) throws MaxException {
         String args = Parser.getArguments(response);
         String[] ddl = Parser.parseDeadline(args);
         LocalDate date = Parser.parseDate(ddl[1]);
@@ -132,7 +144,7 @@ public class Max {
         return true;
     }
 
-    private static boolean handleEvent(String response) throws MaxException {
+    private static boolean handleEventCommand(String response) throws MaxException {
         String args = Parser.getArguments(response);
         String[] evt = Parser.parseEvent(args);
         LocalDate start = Parser.parseDate(evt[1]);
@@ -143,34 +155,34 @@ public class Max {
         return true;
     }
 
-    private static boolean handleMark(String response) throws MaxException {
+    private static boolean handleMarkCommand(String response) throws MaxException {
         int index = Parser.parseIndex(Parser.getArguments(response));
         Task task = tasks.setDone(index);
         ui.showTaskMarkedDone(task);
         return true;
     }
 
-    private static boolean handleUnmark(String response) throws MaxException {
+    private static boolean handleUnmarkCommand(String response) throws MaxException {
         int index = Parser.parseIndex(Parser.getArguments(response));
         Task task = tasks.setNotDone(index);
         ui.showTaskMarkedNotDone(task);
         return true;
     }
 
-    private static boolean handleDelete(String response) throws MaxException {
+    private static boolean handleDeleteCommand(String response) throws MaxException {
         int index = Parser.parseIndex(Parser.getArguments(response));
         Task removed = tasks.delete(index);
         ui.showTaskDeleted(removed, tasks.size());
         return true;
     }
 
-    private static boolean handleTasksOn(String response) throws MaxException {
+    private static boolean handleOnCommand(String response) throws MaxException {
         LocalDate date = Parser.parseDate(Parser.getArguments(response));
         ui.showTasksOn(tasks.getTasksOn(date));
         return true;
     }
 
-    private static boolean handleFind(String response) throws MaxException {
+    private static boolean handleFindCommand(String response) throws MaxException {
         List<Task> matches = tasks.find(Parser.getArguments(response));
         ui.showMatchingTasks(matches);
         return true;
