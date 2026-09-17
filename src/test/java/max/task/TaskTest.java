@@ -36,7 +36,7 @@ public class TaskTest {
     }
 
     @Test
-    public void deadline_fields_and_strings_areFormatted() {
+    public void deadline_fieldsAndStrings_areFormatted() {
         LocalDate dueDate = LocalDate.of(2026, 9, 17);
         Deadline deadline = new Deadline("submit report", dueDate);
 
@@ -48,7 +48,7 @@ public class TaskTest {
     }
 
     @Test
-    public void event_validRange_and_dates_areTracked() throws MaxException {
+    public void event_validRangeAndDates_areTracked() throws MaxException {
         LocalDate start = LocalDate.of(2026, 9, 17);
         LocalDate end = LocalDate.of(2026, 9, 19);
         Event event = new Event("camp", start, end);
@@ -72,7 +72,7 @@ public class TaskTest {
     }
 
     @Test
-    public void taskType_and_status_valueParsing_work() {
+    public void taskTypeAndStatus_valueParsingWorks() {
         assertEquals(TaskType.TODO, TaskType.fromSymbol("[T]"));
         assertEquals(TaskType.DEADLINE, TaskType.fromSymbol("[D]"));
         assertEquals(TaskType.EVENT, TaskType.fromSymbol("[E]"));

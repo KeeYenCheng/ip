@@ -1,1 +1,3 @@
 [T] | [ ] | buy eggs \| rice
+[T] | [ ] | read book
+[D] | [ ] | complete ip  | 2010-08-10
