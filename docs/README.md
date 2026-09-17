@@ -16,7 +16,7 @@ is started.
 
 To run Max:
 
-1. Install the jar file [here](https://github.com/KeeYenCheng/ip/releases/tag/Version1.1)
+1. Install the jar file [here](https://github.com/KeeYenCheng/ip/releases/tag/Version1.2)
 2. Run the application using one of the following methods:
 
    **Option A — Double-click**
