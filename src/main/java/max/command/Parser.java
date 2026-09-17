@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import max.maxexception.EmptyDescriptionException;
+import max.maxexception.DateBeforeCurrentDateException;
 import max.maxexception.InvalidTaskIDException;
 import max.maxexception.MaxException;
 import max.maxexception.MissingDatesException;
@@ -152,12 +153,12 @@ public class Parser {
    * Ensures that a task date is not earlier than today's date.
    *
    * @param dateTime date-time supplied for a deadline or event
-   * @throws InvalidDateException if the date is before today
+   * @throws DateBeforeCurrentDateException if the date is before today
    */
   public static void validateDateTimeAfterCurrentDate(LocalDateTime dateTime)
-          throws InvalidDateException {
+          throws DateBeforeCurrentDateException {
     if (dateTime == null || dateTime.toLocalDate().isBefore(LocalDate.now())) {
-      throw new InvalidDateException();
+      throw new DateBeforeCurrentDateException();
     }
   }
 }

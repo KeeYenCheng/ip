@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
 import max.maxexception.EmptyDescriptionException;
+import max.maxexception.DateBeforeCurrentDateException;
 import max.maxexception.InvalidTaskIDException;
 import max.maxexception.MaxException;
 import max.maxexception.MissingDatesException;
@@ -165,8 +166,12 @@ public class ParserTest {
 
   @Test
   public void validateDateTimeAfterCurrentDate_rejectsPastDate() {
-    assertThrows(MaxException.class, () -> Parser.validateDateTimeAfterCurrentDate(
-            LocalDate.now().minusDays(1).atStartOfDay()));
+    DateBeforeCurrentDateException exception = assertThrows(
+            DateBeforeCurrentDateException.class,
+            () -> Parser.validateDateTimeAfterCurrentDate(
+                    LocalDate.now().minusDays(1).atStartOfDay()));
+    assertEquals("Invalid date. The date cannot be before the current date.",
+            exception.getMessage());
   }
   
 }
