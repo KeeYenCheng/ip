@@ -28,11 +28,18 @@ dependencies {
             ? 'win'
             : org.gradle.internal.os.OperatingSystem.current().isMacOsX() ? 'mac' : 'linux'
 
-    implementation("org.openjfx:javafx-base:${javaFxVersion}:${platform}")
-    implementation("org.openjfx:javafx-controls:${javaFxVersion}:${platform}")
-    implementation("org.openjfx:javafx-fxml:${javaFxVersion}:${platform}")
-    implementation("org.openjfx:javafx-graphics:${javaFxVersion}:${platform}")
-
+    implementation("org.openjfx:javafx-base:${javaFxVersion}:win")
+    implementation("org.openjfx:javafx-base:${javaFxVersion}:mac")
+    implementation("org.openjfx:javafx-base:${javaFxVersion}:linux")
+    implementation("org.openjfx:javafx-controls:${javaFxVersion}:win")
+    implementation("org.openjfx:javafx-controls:${javaFxVersion}:mac")
+    implementation("org.openjfx:javafx-controls:${javaFxVersion}:linux")
+    implementation("org.openjfx:javafx-fxml:${javaFxVersion}:win")
+    implementation("org.openjfx:javafx-fxml:${javaFxVersion}:mac")
+    implementation("org.openjfx:javafx-fxml:${javaFxVersion}:linux")
+    implementation("org.openjfx:javafx-graphics:${javaFxVersion}:win")
+    implementation("org.openjfx:javafx-graphics:${javaFxVersion}:mac")
+    implementation("org.openjfx:javafx-graphics:${javaFxVersion}:linux"
 }
 
 
