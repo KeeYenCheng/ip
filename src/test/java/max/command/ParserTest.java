@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
 import max.maxexception.EmptyDescriptionException;
@@ -143,6 +144,29 @@ public class ParserTest {
   public void parseDate_invalidDate() {
     assertThrows(MaxException.class, () -> Parser.parseDate("2026-13-50"));
   }
+
+  @Test
+  public void parseDateTime_validDateAndTime() throws MaxException {
+    assertEquals(LocalDateTime.of(2026, 8, 27, 14, 30),
+            Parser.parseDateTime("2026-08-27 14:30"));
+  }
+
+  @Test
+  public void parseDateTime_dateOnlyDefaultsToMidnight() throws MaxException {
+    assertEquals(LocalDateTime.of(2026, 8, 27, 0, 0),
+            Parser.parseDateTime("2026-08-27"));
+  }
+
+  @Test
+  public void validateDateTimeAfterCurrentDate_acceptsTodayAndFuture() throws MaxException {
+    Parser.validateDateTimeAfterCurrentDate(LocalDate.now().atStartOfDay());
+    Parser.validateDateTimeAfterCurrentDate(LocalDate.now().plusDays(1).atStartOfDay());
+  }
+
+  @Test
+  public void validateDateTimeAfterCurrentDate_rejectsPastDate() {
+    assertThrows(MaxException.class, () -> Parser.validateDateTimeAfterCurrentDate(
+            LocalDate.now().minusDays(1).atStartOfDay()));
+  }
   
 }
-

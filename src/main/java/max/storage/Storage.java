@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -80,19 +81,30 @@ public class Storage {
                         if (data.length != 4) {
                             throw new IllegalArgumentException();
                         }
-                        tasks.add(new Deadline(data[2], Status.fromSymbol(data[1]),
-                                LocalDate.parse(data[3])));
+                        if (data[3].contains("T")) {
+                            tasks.add(new Deadline(data[2], Status.fromSymbol(data[1]),
+                                    LocalDateTime.parse(data[3])));
+                        } else {
+                            tasks.add(new Deadline(data[2], Status.fromSymbol(data[1]),
+                                    LocalDate.parse(data[3])));
+                        }
                         break;
                     case EVENT:
                         if (data.length != 5) {
                             throw new IllegalArgumentException();
                         }
-                        tasks.add(new Event(data[2], Status.fromSymbol(data[1]),
-                                LocalDate.parse(data[3]), LocalDate.parse(data[4])));
+                        if (data[3].contains("T") || data[4].contains("T")) {
+                            tasks.add(new Event(data[2], Status.fromSymbol(data[1]),
+                                    LocalDateTime.parse(data[3]), LocalDateTime.parse(data[4])));
+                        } else {
+                            tasks.add(new Event(data[2], Status.fromSymbol(data[1]),
+                                    LocalDate.parse(data[3]), LocalDate.parse(data[4])));
+                        }
                         break;
                     default:
                         break;
                 }
+
             } catch (IllegalArgumentException | MaxException e) {
                 s.close();
                 throw new InvalidStorageDataException(lineNumber);

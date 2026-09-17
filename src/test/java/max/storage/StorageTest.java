@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,17 @@ public class StorageTest {
         List<Task> loaded = storage.load();
         assertEquals("trip", loaded.get(0).getDescription());
         assertEquals("[E] | [ ] | trip | 2026-09-17 | 2026-09-19", loaded.get(0).getItemString());
+    }
+
+    @Test
+    public void saveAndLoad_timeRoundTrip_preservesDateTimes() throws Exception {
+        Path file = Files.createTempFile("max-storage-time", ".txt");
+        Storage storage = new Storage(file.toString());
+        storage.save(List.of(new Deadline("report",
+                LocalDateTime.of(2026, 9, 17, 18, 30))));
+
+        List<Task> loaded = storage.load();
+        assertEquals("[D] | [ ] | report | 2026-09-17T18:30", loaded.get(0).getItemString());
     }
 
     @Test

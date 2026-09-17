@@ -1,5 +1,7 @@
 package max.command;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import max.maxexception.EmptyDescriptionException;
@@ -122,6 +124,39 @@ public class Parser {
     try {
       return LocalDate.parse(dateStr.trim());
     } catch (DateTimeParseException | NullPointerException e) {
+      throw new InvalidDateException();
+    }
+  }
+
+  /**
+   * Converts a date or date-time string to a LocalDateTime. Date-only values
+   * are interpreted at midnight for backwards compatibility.
+   */
+  public static LocalDateTime parseDateTime(String dateTimeStr) throws MaxException {
+    if (dateTimeStr == null) {
+      throw new InvalidDateException();
+    }
+    String value = dateTimeStr.trim();
+    try {
+      return LocalDateTime.parse(value, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    } catch (DateTimeParseException e) {
+      try {
+        return LocalDate.parse(value).atStartOfDay();
+      } catch (DateTimeParseException dateException) {
+        throw new InvalidDateException();
+      }
+    }
+  }
+
+  /**
+   * Ensures that a task date is not earlier than today's date.
+   *
+   * @param dateTime date-time supplied for a deadline or event
+   * @throws InvalidDateException if the date is before today
+   */
+  public static void validateDateTimeAfterCurrentDate(LocalDateTime dateTime)
+          throws InvalidDateException {
+    if (dateTime == null || dateTime.toLocalDate().isBefore(LocalDate.now())) {
       throw new InvalidDateException();
     }
   }

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
@@ -69,6 +70,27 @@ public class TaskTest {
         assertThrows(InvalidDateRangeException.class, () -> new Event("camp", start, end));
         assertThrows(InvalidDateRangeException.class, () -> new Event("camp", Status.NOT_DONE, start, end));
         assertThrows(InvalidDateRangeException.class, () -> new Event("camp", null, end));
+    }
+
+    @Test
+    public void deadline_withTime_preservesAndDisplaysTime() {
+        Deadline deadline = new Deadline("submit report",
+                LocalDateTime.of(2026, 9, 17, 18, 30));
+
+        assertEquals(LocalDateTime.of(2026, 9, 17, 18, 30), deadline.getDateTime());
+        assertEquals("[D] | [ ] | submit report | 2026-09-17T18:30", deadline.getItemString());
+        assertEquals("[D] [ ] submit report(by: Sep 17 2026 18:30)", deadline.toString());
+    }
+
+    @Test
+    public void event_withTime_validatesDateTimeRange() throws MaxException {
+        Event event = new Event("meeting",
+                LocalDateTime.of(2026, 9, 17, 10, 0),
+                LocalDateTime.of(2026, 9, 17, 11, 30));
+
+        assertTrue(event.isOn(LocalDate.of(2026, 9, 17)));
+        assertEquals("[E] | [ ] | meeting | 2026-09-17T10:00 | 2026-09-17T11:30",
+                event.getItemString());
     }
 
     @Test

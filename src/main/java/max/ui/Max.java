@@ -2,6 +2,7 @@ package max.ui;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 import java.util.List;
 
@@ -152,8 +153,11 @@ public class Max {
     private static boolean handleDeadlineCommand(String response) throws MaxException {
         String args = Parser.getArguments(response);
         String[] ddl = Parser.parseDeadline(args);
-        LocalDate date = Parser.parseDate(ddl[1]);
-        Deadline deadline = new Deadline(ddl[0], date);
+        LocalDateTime date = Parser.parseDateTime(ddl[1]);
+        Parser.validateDateTimeAfterCurrentDate(date);
+        Deadline deadline = hasTime(ddl[1])
+                ? new Deadline(ddl[0], date)
+                : new Deadline(ddl[0], date.toLocalDate());
         tasks.add(deadline);
         ui.showTaskAdded(deadline, tasks.size());
         return true;
@@ -162,12 +166,20 @@ public class Max {
     private static boolean handleEventCommand(String response) throws MaxException {
         String args = Parser.getArguments(response);
         String[] evt = Parser.parseEvent(args);
-        LocalDate start = Parser.parseDate(evt[1]);
-        LocalDate end = Parser.parseDate(evt[2]);
-        Event event = new Event(evt[0], start, end);
+        LocalDateTime start = Parser.parseDateTime(evt[1]);
+        LocalDateTime end = Parser.parseDateTime(evt[2]);
+        Parser.validateDateTimeAfterCurrentDate(start);
+        Parser.validateDateTimeAfterCurrentDate(end);
+        Event event = hasTime(evt[1]) || hasTime(evt[2])
+                ? new Event(evt[0], start, end)
+                : new Event(evt[0], start.toLocalDate(), end.toLocalDate());
         tasks.add(event);
         ui.showTaskAdded(event, tasks.size());
         return true;
+    }
+
+    private static boolean hasTime(String value) {
+        return value.trim().contains(" ");
     }
 
     private static boolean handleMarkCommand(String response) throws MaxException {

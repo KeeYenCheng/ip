@@ -37,16 +37,17 @@ The JAR is created at `build/libs/max.jar`.
 ## User guide
 
 Enter commands in the input box and submit them. Dates must use the
-`yyyy-MM-dd` format, for example `2026-09-17`. Task numbers are shown in the
-task list and start at 1.
+`yyyy-MM-dd` format, for example `2026-09-17`. Times are optional and use
+`HH:mm`, for example `2026-09-17 14:30`. Task numbers are shown in the task
+list and start at 1.
 
 ### Adding tasks
 
 | Command | Description | Example |
 | --- | --- | --- |
 | `todo DESCRIPTION` | Adds a task without a date. | `todo Read chapter 3` |
-| `deadline DESCRIPTION /by DATE` | Adds a task with a due date. | `deadline Submit report /by 2026-09-20` |
-| `event DESCRIPTION /from DATE /to DATE` | Adds an event spanning a date range. | `event Project meeting /from 2026-09-18 /to 2026-09-18` |
+| `deadline DESCRIPTION /by DATE [TIME]` | Adds a task with a due date and optional time. | `deadline Submit report /by 2026-09-20 18:00` |
+| `event DESCRIPTION /from DATE [TIME] /to DATE [TIME]` | Adds an event spanning a date/time range. | `event Project meeting /from 2026-09-18 10:00 /to 2026-09-18 11:00` |
 
 ### Viewing and finding tasks
 
