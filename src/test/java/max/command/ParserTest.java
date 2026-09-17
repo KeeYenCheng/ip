@@ -19,6 +19,12 @@ public class ParserTest {
     assertEquals("list", Parser.getCommandWord("list"));
   }
 
+  @Test
+  public void getCommandWord_nullOrBlank_returnsEmptyString() {
+    assertEquals("", Parser.getCommandWord(null));
+    assertEquals("", Parser.getCommandWord("   "));
+  }
+
   @Test 
   public void getCommandWord_wordWithArguments_returnFirstWordOnly() {
     assertEquals("todo", Parser.getCommandWord("todo read book"));
@@ -32,6 +38,11 @@ public class ParserTest {
   @Test 
   public void getArguments_validInput_returnsArgumentsAfterCommand() throws EmptyDescriptionException {
     assertEquals("read book", Parser.getArguments("todo read book"));
+  }
+
+  @Test
+  public void getArguments_nullInput_throwsException() {
+    assertThrows(EmptyDescriptionException.class, () -> Parser.getArguments(null));
   }
 
   @Test 
