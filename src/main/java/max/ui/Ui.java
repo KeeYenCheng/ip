@@ -9,10 +9,10 @@ public class Ui {
                                  + "|  Y Y  \\/ __ \\_>    < \n"
                                  + "|__|_|  (____  /__/\\_ \\\n" 
                                  + "      \\/     \\/      \\/\n";
-    private static String greetings = "Sup! I'm Max.\n"
-                                         + "What do you need?";
+    private static String greetings = "Max. Ready.\n"
+                                         + "Enter a command.";
     private static String bar = "________________________________________";
-    private static String bye =  "See ya later!\n";
+    private static String bye =  "Done.\n";
 
     /**
      * Print line separator.
@@ -86,9 +86,9 @@ public class Ui {
      * ```
      */
     public void showTaskDeleted(Task task, int remainingCount) {
-        showResponse("Okay! I've deleted this task from the list\n"
+        showResponse("Deleted.\n"
                 + task + "\n"
-                + "Now you have " + remainingCount + " in the list");
+                + remainingCount + " task(s) remaining.");
     }
 
     /**
@@ -106,7 +106,7 @@ public class Ui {
      * ```
      */
     public void showTaskMarkedDone(Task task) {
-        showResponse("Nice! I've marked this task as done\n" + task);
+        showResponse("Marked done.\n" + task);
     }
 
     /**
@@ -115,7 +115,7 @@ public class Ui {
      * @param task Task that was to be marked not done.
      */
     public void showTaskMarkedNotDone(Task task) {
-        showResponse("Ok! I've marked this task as not done\n" + task);
+        showResponse("Marked not done.\n" + task);
     }
 
     /**
@@ -126,11 +126,11 @@ public class Ui {
      */
     public void showAllTasks(List<Task> tasks) {
         if (tasks.isEmpty()) {
-            showResponse( "there is currently no task");
+            showResponse("No tasks.");
             return;
         }
         
-        String response = "These are the current task\n" 
+        String response = "Tasks:\n"
                             + tasks.stream()
                                 .map(Task::toString)
                                 .collect(Collectors.joining("\n", "", "\n"));
@@ -146,11 +146,11 @@ public class Ui {
      */
     public void showSortedTasks(List<Task> tasks) {
         if (tasks.isEmpty()) {
-            showResponse("there is currently no task");
+            showResponse("No tasks.");
             return;
         }
 
-        String response = "Tasks sorted by deadline:\n"
+        String response = "Sorted by deadline:\n"
                 + tasks.stream()
                 .map(Task::toString)
                 .collect(Collectors.joining("\n"));
@@ -174,8 +174,8 @@ public class Ui {
      * @param totalTasks number of task in total 
      */
     public void showTaskAdded(Task task, int totalTasks) {
-        showResponse("Task added:\n" + task + "\n"
-                +  "Now you have " + totalTasks + " in the list");
+        showResponse("Added.\n" + task + "\n"
+                + totalTasks + " task(s) in the list.");
     }
 
     /**
@@ -189,10 +189,10 @@ public class Ui {
 
     public void showMatchingTasks(List<Task> tasks) {
         if (tasks.isEmpty()) {
-            showResponse("No matching tasks found in your list.");
+            showResponse("No matching tasks.");
             return;
         }
-        String response = "Here are the matching tasks in your list \n" +
+        String response = "Matches:\n" +
                             tasks.stream().map(Task::toString).collect(Collectors.joining("\n", "", "\n"));
         showResponse(response.toString());
     }

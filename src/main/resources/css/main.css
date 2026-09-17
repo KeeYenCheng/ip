@@ -1,24 +1,30 @@
 .root {
-    main-color: #f7f9fa;
+    main-color: #f1f4f4;
     -fx-background-color: main-color;
     -fx-font-family: "System";
 }
 
 .text-field {
-    -fx-background-color: white;
-    -fx-border-color: #c4d0d3;
-    -fx-border-radius: 6px;
-    -fx-background-radius: 6px;
-    -fx-font-size: 13px;
-    -fx-padding: 0 10px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #9aaeb0;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+    -fx-font-size: 14px;
+    -fx-padding: 0 12px;
+}
+
+.text-field:focused {
+    -fx-border-color: #166b68;
+    -fx-border-width: 2px;
 }
 
 .button {
     -fx-background-color: #166b68;
-    -fx-background-radius: 6px;
+    -fx-background-radius: 3px;
     -fx-text-fill: white;
     -fx-font-size: 13px;
     -fx-font-weight: bold;
+    -fx-padding: 0 16px;
 }
 
 .button:hover {
@@ -33,6 +39,10 @@
 .scroll-pane .viewport {
     -fx-background-color: main-color;
     -fx-border-color: transparent;
+}
+
+.scroll-pane {
+    -fx-padding: 8px 4px 4px 4px;
 }
 
 .scroll-bar {
