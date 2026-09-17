@@ -16,7 +16,7 @@ is started.
 
 To run Max:
 
-1. Install the jar file [here](https://github.com/KeeYenCheng/ip/releases/tag/Version1.0)
+1. Install the jar file [here](https://github.com/KeeYenCheng/ip/releases/tag/Version1.1)
 2. you could double click on the jar file to run it or run it using the command prompt
    ```bash
    java -jar max.jar
