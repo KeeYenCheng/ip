@@ -17,10 +17,17 @@ is started.
 To run Max:
 
 1. Install the jar file [here](https://github.com/KeeYenCheng/ip/releases/tag/Version1.1)
-2. you could double click on the jar file to run it or run it using the command prompt
-   ```bash
-   java -jar max.jar
-   ```
+2. Run the application using one of the following methods:
+
+   **Option A — Double-click**
+   Simply double-click the jar file.
+
+   **Option B — Command line**
+   1. Open a command prompt in the folder containing the jar file (tip: type `cmd` in the folder's address bar and press Enter).
+   2. Run:
+```bash
+      java -jar yourfile.jar
+```
 ## Using Max
 
 Enter commands in the input box and submit them. Dates must use the
