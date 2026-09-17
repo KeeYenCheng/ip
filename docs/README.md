@@ -12,7 +12,7 @@ is started.
 
 ### Prerequisites
 
-- JDK 25
+- java 25
 
 To run Max:
 
