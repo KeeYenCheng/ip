@@ -1,36 +1,22 @@
 # Max User Guide
 
+![UI Screenshot](Ui.png)
+
 Max is a task-management application for keeping track of todos, deadlines, and
 events. Tasks are saved automatically, so they are available the next time Max
 is started.
+
+
 
 ## Getting started
 
 ### Prerequisites
 
 - JDK 25
-- IntelliJ IDEA, or a terminal with Gradle available
 
-To run Max from IntelliJ IDEA:
+To run Max:
 
-1. Open the project directory in IntelliJ IDEA.
-2. Configure the project SDK and language level to use JDK 25.
-3. Open `src/main/java/max/ui/Launcher.java`.
-4. Right-click the file and choose **Run `Launcher.main()`**.
-
-To run Max from the project root in PowerShell:
-
-```powershell
-.\gradlew.bat run
-```
-
-To build the distributable JAR:
-
-```powershell
-.\gradlew.bat shadowJar
-```
-
-The JAR is created at `build/libs/max.jar`.
+1. Install the jar file here
 
 ## Using Max
 
