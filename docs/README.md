@@ -16,8 +16,11 @@ is started.
 
 To run Max:
 
-1. Install the jar file here
-
+1. Install the jar file [here](https://github.com/KeeYenCheng/ip/releases/tag/Version1.0)
+2. you could double click on the jar file to run it or run it using the command prompt
+   ```bash
+   java -jar max.jar
+   ```
 ## Using Max
 
 Enter commands in the input box and submit them. Dates must use the
@@ -97,11 +100,5 @@ mark 1
 find report
 bye
 ```
-
-## Troubleshooting
-
-- Ensure that the project is configured to use **JDK 25**.
-- If IntelliJ IDEA shows stale compilation errors, restart the IDE and reload
-  the Gradle project.
 - Keep Java source files under `src/main/java` and resources under
   `src/main/resources`, as expected by Gradle.
