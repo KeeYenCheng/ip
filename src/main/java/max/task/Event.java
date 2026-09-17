@@ -1,6 +1,8 @@
 package max.task;
 import max.data.TaskType;
 import max.data.Status;
+import max.maxexception.InvalidDateRangeException;
+import max.maxexception.MaxException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -13,23 +15,28 @@ public class Event extends Task {
             DateTimeFormatter.ofPattern("MMM dd yyyy");
 
 
-    public Event(String desc, LocalDate start, LocalDate end) {
+    public Event(String desc, LocalDate start, LocalDate end) throws MaxException {
         super(desc, TaskType.EVENT);
-        assert start != null : "An event must have a start date";
-        assert end != null : "An event must have an end date";
-        assert !end.isBefore(start) : "An event cannot end before it starts";
+        validateDates(start, end);
         this.start = start;
         this.end = end;
 
     }
 
-    public Event(String desc, Status status, LocalDate start, LocalDate end) {
+    public Event(String desc, Status status, LocalDate start, LocalDate end) throws MaxException {
         super(desc, TaskType.EVENT, status);
-        assert start != null : "An event must have a start date";
-        assert end != null : "An event must have an end date";
-        assert !end.isBefore(start) : "An event cannot end before it starts";
+        validateDates(start, end);
         this.start = start;
         this.end = end;
+    }
+
+    private static void validateDates(LocalDate start, LocalDate end) throws MaxException {
+        if (start == null || end == null) {
+            throw new InvalidDateRangeException();
+        }
+        if (end.isBefore(start)) {
+            throw new InvalidDateRangeException();
+        }
     }
 
     @Override

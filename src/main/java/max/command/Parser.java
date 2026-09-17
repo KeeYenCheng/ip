@@ -6,6 +6,7 @@ import max.maxexception.EmptyDescriptionException;
 import max.maxexception.InvalidTaskIDException;
 import max.maxexception.MaxException;
 import max.maxexception.MissingDatesException;
+import max.maxexception.InvalidDateException;
 
 
 public class Parser {
@@ -24,7 +25,10 @@ public class Parser {
    */
 
   public static String getCommandWord(String input) {
-    return input.split(" ", 2)[0];
+    if (input == null || input.trim().isEmpty()) {
+      return "";
+    }
+    return input.trim().split("\\s+", 2)[0];
   }
 
   /**
@@ -36,11 +40,15 @@ public class Parser {
    */
 
   public static String getArguments(String input) throws EmptyDescriptionException {
-    String[] parts = input.split(" ", 2);
-    if (parts.length < 2) {
+    if (input == null) {
       throw new EmptyDescriptionException();
     }
-    return parts[1];
+    String trimmed = input.trim();
+    String[] parts = trimmed.split("\\s+", 2);
+    if (parts.length < 2 || parts[1].trim().isEmpty()) {
+      throw new EmptyDescriptionException();
+    }
+    return parts[1].trim();
   }
 
   /**
@@ -58,8 +66,8 @@ public class Parser {
    */
 
   public static String[] parseDeadline(String args) throws MissingDatesException {
-    String[] ddl = args.split("/by ");
-    if (ddl.length < 2) {
+    String[] ddl = args == null ? new String[0] : args.split("/by\\s+", -1);
+    if (ddl.length != 2 || ddl[0].trim().isEmpty() || ddl[1].trim().isEmpty()) {
       throw new MissingDatesException();
     }
     assert ddl.length >= 2 : "A valid deadline split has a description and date";
@@ -74,12 +82,12 @@ public class Parser {
    *
    */
   public static String[] parseEvent(String args) throws MissingDatesException {
-    String[] evt = args.split("/from ");
-    if (evt.length < 2) {
+    String[] evt = args == null ? new String[0] : args.split("/from\\s+", -1);
+    if (evt.length != 2 || evt[0].trim().isEmpty()) {
       throw new MissingDatesException();
     }
-    String[] startEnd = evt[1].split(" /to ");
-    if (startEnd.length < 2) {
+    String[] startEnd = evt[1].split("\\s+/to\\s+", -1);
+    if (startEnd.length != 2 || startEnd[0].trim().isEmpty() || startEnd[1].trim().isEmpty()) {
       throw new MissingDatesException();
     }
     assert evt.length >= 2 : "A valid event split has a start marker";
@@ -113,8 +121,8 @@ public class Parser {
   public static LocalDate parseDate(String dateStr) throws MaxException {
     try {
       return LocalDate.parse(dateStr.trim());
-    } catch (DateTimeParseException e) {
-      throw new MaxException("InvalidTaskIDException");
+    } catch (DateTimeParseException | NullPointerException e) {
+      throw new InvalidDateException();
     }
   }
 }

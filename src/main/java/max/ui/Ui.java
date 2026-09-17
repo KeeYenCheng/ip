@@ -13,6 +13,19 @@ public class Ui {
                                          + "Enter a command.";
     private static String bar = "________________________________________";
     private static String bye =  "Done.\n";
+    private static String help = "Available commands:\n"
+            + "help - Show this help message.\n"
+            + "todo <description> - Add a todo task.\n"
+            + "deadline <description> /by <date> - Add a deadline task.\n"
+            + "event <description> /from <date> /to <date> - Add an event.\n"
+            + "list - Show all tasks.\n"
+            + "sort - Sort tasks by deadline.\n"
+            + "mark <task number> - Mark a task as done.\n"
+            + "unmark <task number> - Mark a task as not done.\n"
+            + "delete <task number> - Delete a task.\n"
+            + "on <date> - Show tasks on a date.\n"
+            + "find <keyword> - Find tasks containing a keyword.\n"
+            + "bye - Exit Max.";
 
     /**
      * Print line separator.
@@ -184,6 +197,11 @@ public class Ui {
      */
     public void showGoodBye() {
         showResponse(bye);
+    }
+
+    /** Displays the commands supported by Max and their usage. */
+    public void showHelp() {
+        showResponse(help);
     }
 
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 import max.maxexception.MaxException;
 import max.maxexception.UnknownCommandException;
+import max.maxexception.InvalidStorageDataException;
 
 import max.storage.Storage;
 import max.command.Parser;
@@ -24,6 +25,7 @@ public class Max {
     private static Storage storage = new Storage("src/data/Max.txt");
     private static TaskList tasks;  
     private boolean lastResponseWasError;
+    private boolean shouldContinue = true;
 
     /**
      * Creates a command processor and loads the saved task list.
@@ -32,8 +34,12 @@ public class Max {
         if (tasks == null) {
             try {
                 tasks = new TaskList(storage.load());
-            } catch (FileNotFoundException e) {
+            } catch (FileNotFoundException | InvalidStorageDataException e) {
                 tasks = new TaskList();
+                ui.showError(e.getMessage());
+            } catch (MaxException e) {
+                tasks = new TaskList();
+                ui.showError("Could not load saved tasks: " + e.getMessage());
             }
         }
         assert tasks != null : "Max must have a task list after initialization";
@@ -47,7 +53,7 @@ public class Max {
      */
     public String getResponse(String command) {
         try {
-            processCommand(command);
+            shouldContinue = processCommand(command);
             storage.save(tasks.getAllTask());
             lastResponseWasError = false;
             return ui.getLastResponse();
@@ -61,6 +67,11 @@ public class Max {
     /** Returns whether the most recent GUI response describes an error. */
     public boolean wasLastResponseAnError() {
         return lastResponseWasError;
+    }
+
+    /** Returns whether the application should continue accepting commands. */
+    public boolean shouldContinue() {
+        return shouldContinue;
     }
 
 
@@ -80,6 +91,9 @@ public class Max {
         }
         assert tasks != null : "Commands require an initialized task list";
         String command = Parser.getCommandWord(response);
+        if (command.isEmpty()) {
+            throw new UnknownCommandException();
+        }
 
         switch (command) {
             case "bye":
@@ -104,6 +118,8 @@ public class Max {
                 return handleOnCommand(response);
             case "find":
                 return handleFindCommand(response);
+            case "help":
+                return handleHelpCommand();
             default:
                 throw new UnknownCommandException();
         }
@@ -186,14 +202,23 @@ public class Max {
         ui.showMatchingTasks(matches);
         return true;
     }
+
+    private static boolean handleHelpCommand() {
+        ui.showHelp();
+        return true;
+    }
     
     public static void main(String... args) {
         ui.showBanner();
 
         try {
             tasks = new TaskList(storage.load());
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | InvalidStorageDataException e) {
             tasks = new TaskList();
+            ui.showError(e.getMessage());
+        } catch (MaxException e) {
+            tasks = new TaskList();
+            ui.showError("Could not load saved tasks: " + e.getMessage());
         }
 
         Scanner scanner = new Scanner(System.in);

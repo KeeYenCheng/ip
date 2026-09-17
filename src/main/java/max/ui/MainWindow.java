@@ -5,6 +5,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  * Controller for the main GUI.
@@ -46,5 +47,10 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getMaxDialog(response, null, max.wasLastResponseAnError())
         );
         userInput.clear();
+
+        if (!max.shouldContinue()) {
+            Stage stage = (Stage) userInput.getScene().getWindow();
+            stage.close();
+        }
     }
 }
